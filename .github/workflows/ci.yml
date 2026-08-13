@@ -25,4 +25,6 @@ jobs:
       - run: moon test --target js --deny-warn
       - run: moon test --target native --deny-warn
       - run: moon build --target native --deny-warn
+      - if: runner.os == 'Linux'
+        run: python tools/test_cli.py
       - run: moon run cmd/moonipfix --target native -- version

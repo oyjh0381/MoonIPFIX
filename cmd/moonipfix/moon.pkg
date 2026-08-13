@@ -3,6 +3,10 @@ import {
   "oyjh0381/moonipfix/jsonl",
   "oyjh0381/moonipfix/registry",
   "moonbitlang/core/env",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/io",
+  "moonbitlang/async/stdio",
 }
 
 supported_targets = "+native"

@@ -18,3 +18,7 @@ keywords = [
 preferred_target = "native"
 
 description = "Template-driven IPFIX flow telemetry decoding and auditing for MoonBit"
+
+import {
+  "moonbitlang/async@0.20.4",
+}

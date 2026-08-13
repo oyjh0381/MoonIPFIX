@@ -152,7 +152,7 @@ fn encode_sequence(audit : @decoder.SequenceAudit) -> String {
 }
 
 ///|
-fn encode_diagnostic(value : @decoder.Diagnostic) -> String {
+pub fn encode_diagnostic(value : @decoder.Diagnostic) -> String {
   envelope(
     "diagnostic",
     "\"session\":\{json_string(value.context.session.to_string())},\"observation_domain_id\":\{optional_uint(value.context.observation_domain_id)},\"set_id\":\{optional_uint(value.context.set_id)},\"code\":\{json_string(diagnostic_code(value.code))},\"severity\":\{json_string(if value.severity == @decoder.DiagnosticSeverity::Warning { "warning" } else { "error" })},\"offset\":\{value.offset},\"message\":\{json_string(value.message)}",
