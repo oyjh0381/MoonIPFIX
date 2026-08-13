@@ -49,6 +49,8 @@ pub(all) enum DiagnosticCode {
   TemplateRedefined
   TemplateWithdrawalMissing
   TemplateWithdrawalIgnoredForUdp
+  StreamBufferLimitExceeded
+  StreamBoundaryLost
 } derive(Debug, Eq)
 
 ///|
@@ -238,4 +240,42 @@ pub struct Decoder {
   registry : @registry.Registry
   templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
   session_transports : @hashmap.HashMap[SessionKey, TransportProtocol]
+}
+
+///|
+/// Maximum retained incomplete-message bytes. A valid IPFIX Message can be at
+/// most 65535 octets because its wire Length is unsigned 16-bit.
+pub(all) struct StreamDecoderConfig {
+  max_buffered_bytes : Int
+} derive(Debug, Eq)
+
+///|
+pub(all) enum StreamConfigError {
+  MaxBufferedBytesBelowHeader(Int)
+  MaxBufferedBytesAboveProtocolMaximum(Int)
+} derive(Debug, Eq)
+
+///|
+/// Outcomes completed by one push plus the exact pending extent, if any.
+pub(all) struct StreamBatch {
+  outcomes : Array[DecodeOutcome]
+  need_more : NeedMore?
+  buffered : Int
+} derive(Debug, Eq)
+
+///|
+pub(all) enum StreamEnd {
+  Complete
+  Truncated(NeedMore)
+  BoundaryLost
+} derive(Debug, Eq)
+
+///|
+/// Stateful arbitrary-chunk adapter over the complete-message Decoder.
+pub struct StreamDecoder {
+  decoder : Decoder
+  session : SessionKey
+  config : StreamDecoderConfig
+  priv mut buffer : Array[Byte]
+  priv mut boundary_lost : Bool
 }
