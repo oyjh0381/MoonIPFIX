@@ -51,6 +51,12 @@ pub(all) enum DiagnosticCode {
   TemplateWithdrawalIgnoredForUdp
   SequenceGap
   SequenceUnverifiable
+  SessionLimitExceeded
+  TemplateLimitExceeded
+  FieldCountLimitExceeded
+  FieldLengthLimitExceeded
+  RecordLimitExceeded
+  DiagnosticLimitExceeded
   StreamBufferLimitExceeded
   StreamBoundaryLost
 } derive(Debug, Eq)
@@ -277,9 +283,11 @@ pub(all) struct DataRecord {
 /// Stateful decoder retaining Templates between complete Messages.
 pub struct Decoder {
   registry : @registry.Registry
-  templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
+  priv mut templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
   session_transports : @hashmap.HashMap[SessionKey, TransportProtocol]
-  sequence_state : @hashmap.HashMap[SequenceIdentity, UInt]
+  priv mut sequence_state : @hashmap.HashMap[SequenceIdentity, UInt]
+  priv mut active_sessions : @hashmap.HashMap[SessionKey, Unit]
+  limits : DecoderLimits
 }
 
 ///|
@@ -287,6 +295,22 @@ struct SequenceIdentity {
   session : SessionKey
   observation_domain_id : UInt
 } derive(Debug, Eq, Hash)
+
+///|
+pub(all) struct DecoderLimits {
+  max_sessions : Int
+  max_templates_per_session : Int
+  max_fields_per_template : Int
+  max_field_length : Int
+  max_records_per_message : Int
+  max_diagnostics_per_message : Int
+} derive(Debug, Eq)
+
+///|
+pub(all) enum LimitConfigError {
+  NonPositive(String, Int)
+  AboveHardCeiling(String, Int, Int)
+} derive(Debug, Eq)
 
 ///|
 /// Maximum retained incomplete-message bytes. A valid IPFIX Message can be at
@@ -299,6 +323,12 @@ pub(all) struct StreamDecoderConfig {
 pub(all) enum StreamConfigError {
   MaxBufferedBytesBelowHeader(Int)
   MaxBufferedBytesAboveProtocolMaximum(Int)
+} derive(Debug, Eq)
+
+///|
+pub(all) enum StreamConstructionError {
+  StreamConfig(StreamConfigError)
+  DecoderConfig(LimitConfigError)
 } derive(Debug, Eq)
 
 ///|

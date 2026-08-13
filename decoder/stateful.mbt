@@ -6,6 +6,8 @@ pub fn Decoder::new() -> Decoder {
     templates: @hashmap.HashMap([]),
     session_transports: @hashmap.HashMap([]),
     sequence_state: @hashmap.HashMap([]),
+    active_sessions: @hashmap.HashMap([]),
+    limits: DecoderLimits::default(),
   }
 }
 
@@ -18,7 +20,35 @@ pub fn Decoder::with_registry(registry : @registry.Registry) -> Decoder {
     templates: @hashmap.HashMap([]),
     session_transports: @hashmap.HashMap([]),
     sequence_state: @hashmap.HashMap([]),
+    active_sessions: @hashmap.HashMap([]),
+    limits: DecoderLimits::default(),
   }
+}
+
+///|
+pub fn Decoder::with_limits(
+  limits : DecoderLimits,
+) -> Result[Decoder, LimitConfigError] {
+  Decoder::with_registry_and_limits(@registry.Registry::standard(), limits)
+}
+
+///|
+pub fn Decoder::with_registry_and_limits(
+  registry : @registry.Registry,
+  limits : DecoderLimits,
+) -> Result[Decoder, LimitConfigError] {
+  match validate_limits(limits) {
+    Ok(_) => ()
+    Err(error) => return Err(error)
+  }
+  Ok({
+    registry,
+    templates: @hashmap.HashMap([]),
+    session_transports: @hashmap.HashMap([]),
+    sequence_state: @hashmap.HashMap([]),
+    active_sessions: @hashmap.HashMap([]),
+    limits,
+  })
 }
 
 ///|
@@ -47,6 +77,7 @@ pub fn Decoder::reset_session(
     }
   }
   self.session_transports.remove(session)
+  self.active_sessions.remove(session)
   let sequence_keys = self.sequence_state.keys().to_array()
   for key in sequence_keys {
     if key.session == session {
@@ -79,8 +110,47 @@ pub fn Decoder::decode_message(
   data : Bytes,
   session : SessionKey,
 ) -> DecodeOutcome {
-  match decode_message(data, session) {
-    Decoded(message) => self.process_framed_message(data, message)
+  match
+    decode_message_limited(
+      data,
+      session,
+      self.limits.max_diagnostics_per_message,
+    ) {
+    Decoded(message) => {
+      if !self.active_sessions.contains(session) &&
+        self.active_sessions.length() >= self.limits.max_sessions {
+        return Rejected([
+          make_diagnostic(
+            session,
+            DiagnosticCode::SessionLimitExceeded,
+            DiagnosticSeverity::Error,
+            0,
+            Some(message.header.observation_domain_id),
+            None,
+            "new Session would exceed the configured Session limit",
+          ),
+        ])
+      }
+      let trial : Decoder = {
+        registry: self.registry,
+        templates: self.templates.copy(),
+        session_transports: self.session_transports,
+        sequence_state: self.sequence_state.copy(),
+        active_sessions: self.active_sessions.copy(),
+        limits: self.limits,
+      }
+      trial.active_sessions.set(session, ())
+      match trial.process_framed_message(data, message) {
+        Decoded(completed) => {
+          self.templates = trial.templates
+          self.sequence_state = trial.sequence_state
+          self.active_sessions = trial.active_sessions
+          Decoded(completed)
+        }
+        NeedMoreData(need) => NeedMoreData(need)
+        Rejected(diagnostics) => Rejected(diagnostics)
+      }
+    }
     NeedMoreData(need) => NeedMoreData(need)
     Rejected(diagnostics) => Rejected(diagnostics)
   }
@@ -96,7 +166,7 @@ fn Decoder::process_framed_message(
   let mut record_count_complete = true
   for set in message.sets {
     if set.kind == SetKind::Template || set.kind == SetKind::OptionsTemplate {
-      match parse_management_set(data, message, set) {
+      match self.parse_management_set(data, message, set) {
         Ok(actions) => management.push(Some(actions))
         Err(diagnostic) => return Rejected([diagnostic])
       }
@@ -109,7 +179,10 @@ fn Decoder::process_framed_message(
     match management[index] {
       Some(actions) =>
         for action in actions {
-          self.apply_management_action(message, action)
+          match self.apply_management_action(message, action) {
+            Ok(_) => ()
+            Err(diagnostic) => return Rejected([diagnostic])
+          }
         }
       None => ()
     }
@@ -122,17 +195,19 @@ fn Decoder::process_framed_message(
       match self.templates.get(identity) {
         None => {
           record_count_complete = false
-          message.diagnostics.push(
-            make_diagnostic(
-              message.session,
-              DiagnosticCode::MissingTemplate,
-              DiagnosticSeverity::Error,
-              set.offset,
-              Some(message.header.observation_domain_id),
-              Some(set.set_id),
-              "Data Set has no Template in this Session and Observation Domain",
-            ),
+          let missing = make_diagnostic(
+            message.session,
+            DiagnosticCode::MissingTemplate,
+            DiagnosticSeverity::Error,
+            set.offset,
+            Some(message.header.observation_domain_id),
+            Some(set.set_id),
+            "Data Set has no Template in this Session and Observation Domain",
           )
+          match self.retain_diagnostic(message, missing) {
+            Ok(_) => ()
+            Err(diagnostic) => return Rejected([diagnostic])
+          }
           message.lifecycle.push({
             action: TemplateLifecycleAction::DataSetUnresolved,
             session: message.session,
@@ -154,7 +229,10 @@ fn Decoder::process_framed_message(
       }
     }
   }
-  self.audit_sequence(message, record_count_complete)
+  match self.audit_sequence(message, record_count_complete) {
+    Ok(_) => ()
+    Err(diagnostic) => return Rejected([diagnostic])
+  }
   update_message_statistics(message)
   Decoded(message)
 }
@@ -164,7 +242,7 @@ fn Decoder::audit_sequence(
   self : Decoder,
   message : DecodedMessage,
   record_count_complete : Bool,
-) -> Unit {
+) -> Result[Unit, Diagnostic] {
   let identity : SequenceIdentity = {
     session: message.session,
     observation_domain_id: message.header.observation_domain_id,
@@ -195,18 +273,23 @@ fn Decoder::audit_sequence(
       record_count_complete: false,
       next_expected: None,
     })
-    message.diagnostics.push(
-      make_diagnostic(
-        message.session,
-        DiagnosticCode::SequenceUnverifiable,
-        DiagnosticSeverity::Warning,
-        8,
-        Some(message.header.observation_domain_id),
-        None,
-        "Sequence continuity cannot advance because at least one Data Set had no applicable Template",
-      ),
-    )
-    return
+    match
+      self.retain_diagnostic(
+        message,
+        make_diagnostic(
+          message.session,
+          DiagnosticCode::SequenceUnverifiable,
+          DiagnosticSeverity::Warning,
+          8,
+          Some(message.header.observation_domain_id),
+          None,
+          "Sequence continuity cannot advance because at least one Data Set had no applicable Template",
+        ),
+      ) {
+      Ok(_) => ()
+      Err(diagnostic) => return Err(diagnostic)
+    }
+    return Ok(())
   }
   let next_expected = sequence_advance(observed, message.records.length())
   self.sequence_state.set(identity, next_expected)
@@ -231,19 +314,25 @@ fn Decoder::audit_sequence(
   })
   match missing {
     Some(_) =>
-      message.diagnostics.push(
-        make_diagnostic(
-          message.session,
-          DiagnosticCode::SequenceGap,
-          DiagnosticSeverity::Warning,
-          8,
-          Some(message.header.observation_domain_id),
-          None,
-          "observed Sequence Number differs from the expected Data Record count",
-        ),
-      )
+      match
+        self.retain_diagnostic(
+          message,
+          make_diagnostic(
+            message.session,
+            DiagnosticCode::SequenceGap,
+            DiagnosticSeverity::Warning,
+            8,
+            Some(message.header.observation_domain_id),
+            None,
+            "observed Sequence Number differs from the expected Data Record count",
+          ),
+        ) {
+        Ok(_) => ()
+        Err(diagnostic) => return Err(diagnostic)
+      }
     None => ()
   }
+  Ok(())
 }
 
 ///|
@@ -278,7 +367,8 @@ fn update_message_statistics(message : DecodedMessage) -> Unit {
 }
 
 ///|
-fn parse_management_set(
+fn Decoder::parse_management_set(
+  self : Decoder,
   data : Bytes,
   message : DecodedMessage,
   set : SetSummary,
@@ -353,6 +443,17 @@ fn parse_management_set(
           DiagnosticCode::InvalidTemplateId,
           cursor,
           "Template ID must be at least 256",
+        ),
+      )
+    }
+    if field_count > self.limits.max_fields_per_template {
+      return Err(
+        template_diagnostic(
+          message,
+          set,
+          DiagnosticCode::FieldCountLimitExceeded,
+          cursor + 2,
+          "Template Field Count exceeds the configured limit",
         ),
       )
     }
@@ -453,6 +554,17 @@ fn parse_management_set(
           ),
         )
       }
+      if field_length != 65535 && field_length > self.limits.max_field_length {
+        return Err(
+          template_diagnostic(
+            message,
+            set,
+            DiagnosticCode::FieldLengthLimitExceeded,
+            specifier_offset + 2,
+            "fixed field length exceeds the configured limit",
+          ),
+        )
+      }
       let minimum_field_length = if field_length == 65535 {
         has_variable_length = true
         1
@@ -532,9 +644,24 @@ fn Decoder::apply_management_action(
   self : Decoder,
   message : DecodedMessage,
   action : TemplateManagementAction,
-) -> Unit {
+) -> Result[Unit, Diagnostic] {
   match action {
     Define(template, offset) => {
+      if self.templates.get(template.identity) is None &&
+        self.template_count_for_session(template.identity.session) >=
+        self.limits.max_templates_per_session {
+        return Err(
+          make_diagnostic(
+            message.session,
+            DiagnosticCode::TemplateLimitExceeded,
+            DiagnosticSeverity::Error,
+            offset,
+            Some(template.identity.observation_domain_id),
+            Some(template.identity.template_id),
+            "new Template would exceed the configured per-Session limit",
+          ),
+        )
+      }
       let lifecycle_action = match self.templates.get(template.identity) {
         None => {
           self.templates.set(template.identity, template)
@@ -545,17 +672,22 @@ fn Decoder::apply_management_action(
             TemplateLifecycleAction::Retransmitted
           } else {
             self.templates.set(template.identity, template)
-            message.diagnostics.push(
-              make_diagnostic(
-                message.session,
-                DiagnosticCode::TemplateRedefined,
-                DiagnosticSeverity::Warning,
-                offset,
-                Some(template.identity.observation_domain_id),
-                Some(template.identity.template_id),
-                "a different definition replaced the scoped Template",
-              ),
-            )
+            match
+              self.retain_diagnostic(
+                message,
+                make_diagnostic(
+                  message.session,
+                  DiagnosticCode::TemplateRedefined,
+                  DiagnosticSeverity::Warning,
+                  offset,
+                  Some(template.identity.observation_domain_id),
+                  Some(template.identity.template_id),
+                  "a different definition replaced the scoped Template",
+                ),
+              ) {
+              Ok(_) => ()
+              Err(diagnostic) => return Err(diagnostic)
+            }
             TemplateLifecycleAction::Replaced
           }
       }
@@ -572,17 +704,22 @@ fn Decoder::apply_management_action(
     }
     WithdrawOne(identity, kind, offset) =>
       if self.session_uses_udp(identity.session) {
-        message.diagnostics.push(
-          make_diagnostic(
-            message.session,
-            DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
-            DiagnosticSeverity::Warning,
-            offset,
-            Some(identity.observation_domain_id),
-            Some(identity.template_id),
-            "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
-          ),
-        )
+        match
+          self.retain_diagnostic(
+            message,
+            make_diagnostic(
+              message.session,
+              DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
+              DiagnosticSeverity::Warning,
+              offset,
+              Some(identity.observation_domain_id),
+              Some(identity.template_id),
+              "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
+            ),
+          ) {
+          Ok(_) => ()
+          Err(diagnostic) => return Err(diagnostic)
+        }
         message.lifecycle.push({
           action: TemplateLifecycleAction::WithdrawalIgnored,
           session: identity.session,
@@ -607,17 +744,22 @@ fn Decoder::apply_management_action(
             })
           }
           _ => {
-            message.diagnostics.push(
-              make_diagnostic(
-                message.session,
-                DiagnosticCode::TemplateWithdrawalMissing,
-                DiagnosticSeverity::Warning,
-                offset,
-                Some(identity.observation_domain_id),
-                Some(identity.template_id),
-                "withdrawal was ignored because the scoped Template is not stored with this kind",
-              ),
-            )
+            match
+              self.retain_diagnostic(
+                message,
+                make_diagnostic(
+                  message.session,
+                  DiagnosticCode::TemplateWithdrawalMissing,
+                  DiagnosticSeverity::Warning,
+                  offset,
+                  Some(identity.observation_domain_id),
+                  Some(identity.template_id),
+                  "withdrawal was ignored because the scoped Template is not stored with this kind",
+                ),
+              ) {
+              Ok(_) => ()
+              Err(diagnostic) => return Err(diagnostic)
+            }
             message.lifecycle.push({
               action: TemplateLifecycleAction::WithdrawalMissing,
               session: identity.session,
@@ -632,17 +774,22 @@ fn Decoder::apply_management_action(
       }
     WithdrawAll(session, observation_domain_id, kind, offset) => {
       if self.session_uses_udp(session) {
-        message.diagnostics.push(
-          make_diagnostic(
-            message.session,
-            DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
-            DiagnosticSeverity::Warning,
-            offset,
-            Some(observation_domain_id),
-            None,
-            "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
-          ),
-        )
+        match
+          self.retain_diagnostic(
+            message,
+            make_diagnostic(
+              message.session,
+              DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
+              DiagnosticSeverity::Warning,
+              offset,
+              Some(observation_domain_id),
+              None,
+              "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
+            ),
+          ) {
+          Ok(_) => ()
+          Err(diagnostic) => return Err(diagnostic)
+        }
         message.lifecycle.push({
           action: TemplateLifecycleAction::WithdrawalIgnored,
           session,
@@ -652,7 +799,7 @@ fn Decoder::apply_management_action(
           affected: 0,
           offset: Some(offset),
         })
-        return
+        return Ok(())
       }
       let keys = self.templates.keys().to_array()
       let mut removed = 0
@@ -669,17 +816,22 @@ fn Decoder::apply_management_action(
         }
       }
       if removed == 0 {
-        message.diagnostics.push(
-          make_diagnostic(
-            message.session,
-            DiagnosticCode::TemplateWithdrawalMissing,
-            DiagnosticSeverity::Warning,
-            offset,
-            Some(observation_domain_id),
-            None,
-            "all-Templates withdrawal matched no stored Templates of this kind",
-          ),
-        )
+        match
+          self.retain_diagnostic(
+            message,
+            make_diagnostic(
+              message.session,
+              DiagnosticCode::TemplateWithdrawalMissing,
+              DiagnosticSeverity::Warning,
+              offset,
+              Some(observation_domain_id),
+              None,
+              "all-Templates withdrawal matched no stored Templates of this kind",
+            ),
+          ) {
+          Ok(_) => ()
+          Err(diagnostic) => return Err(diagnostic)
+        }
       }
       message.lifecycle.push({
         action: TemplateLifecycleAction::WithdrawnAll,
@@ -692,6 +844,21 @@ fn Decoder::apply_management_action(
       })
     }
   }
+  Ok(())
+}
+
+///|
+fn Decoder::template_count_for_session(
+  self : Decoder,
+  session : SessionKey,
+) -> Int {
+  let mut count = 0
+  for key in self.templates.keys() {
+    if key.session == session {
+      count += 1
+    }
+  }
+  count
 }
 
 ///|
@@ -711,6 +878,18 @@ fn Decoder::decode_data_set(
   let end = set.offset + set.length
   let mut cursor = set.payload_offset
   while end - cursor >= template.minimum_record_length {
+    if message.records.length() + records.length() >=
+      self.limits.max_records_per_message {
+      return Err(
+        data_diagnostic(
+          message,
+          set,
+          DiagnosticCode::RecordLimitExceeded,
+          cursor,
+          "Data Record count exceeds the configured per-Message limit",
+        ),
+      )
+    }
     let record_offset = cursor
     let fields : Array[DecodedField] = []
     for specifier in template.fields {
@@ -773,23 +952,37 @@ fn Decoder::decode_data_set(
           ),
         )
       }
+      if encoded_length > self.limits.max_field_length {
+        return Err(
+          data_diagnostic(
+            message,
+            set,
+            DiagnosticCode::FieldLengthLimitExceeded,
+            value_offset,
+            "field value exceeds the configured encoded-length limit",
+          ),
+        )
+      }
       let metadata = self.registry.lookup(specifier.identity)
       let (value, fallback_reason) = decode_field_value(
         metadata, data, value_offset, encoded_length,
       )
       match fallback_reason {
-        Some(reason) =>
-          message.diagnostics.push(
-            make_diagnostic(
-              message.session,
-              DiagnosticCode::InvalidFieldEncoding,
-              DiagnosticSeverity::Warning,
-              value_offset,
-              Some(message.header.observation_domain_id),
-              Some(set.set_id),
-              reason,
-            ),
+        Some(reason) => {
+          let fallback = make_diagnostic(
+            message.session,
+            DiagnosticCode::InvalidFieldEncoding,
+            DiagnosticSeverity::Warning,
+            value_offset,
+            Some(message.header.observation_domain_id),
+            Some(set.set_id),
+            reason,
           )
+          match self.retain_diagnostic(message, fallback) {
+            Ok(_) => ()
+            Err(diagnostic) => return Err(diagnostic)
+          }
+        }
         None => ()
       }
       fields.push({
@@ -1095,6 +1288,30 @@ fn data_diagnostic(
     Some(set.set_id),
     text,
   )
+}
+
+///|
+fn Decoder::retain_diagnostic(
+  self : Decoder,
+  message : DecodedMessage,
+  diagnostic : Diagnostic,
+) -> Result[Unit, Diagnostic] {
+  if message.diagnostics.length() >= self.limits.max_diagnostics_per_message {
+    Err(
+      make_diagnostic(
+        message.session,
+        DiagnosticCode::DiagnosticLimitExceeded,
+        DiagnosticSeverity::Error,
+        diagnostic.offset,
+        diagnostic.context.observation_domain_id,
+        diagnostic.context.set_id,
+        "Message exceeds the configured retained Diagnostic limit",
+      ),
+    )
+  } else {
+    message.diagnostics.push(diagnostic)
+    Ok(())
+  }
 }
 
 ///|

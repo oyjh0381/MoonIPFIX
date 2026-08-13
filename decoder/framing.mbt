@@ -11,6 +11,15 @@ let set_header_length : Int = 4
 /// trailing bytes. A short buffer reports the exact known extent required;
 /// malformed complete input is rejected with structured diagnostics.
 pub fn decode_message(data : Bytes, session : SessionKey) -> DecodeOutcome {
+  decode_message_limited(data, session, 4096)
+}
+
+///|
+fn decode_message_limited(
+  data : Bytes,
+  session : SessionKey,
+  max_diagnostics : Int,
+) -> DecodeOutcome {
   if data.length() < message_header_length {
     return NeedMoreData({
       available: data.length(),
@@ -106,6 +115,16 @@ pub fn decode_message(data : Bytes, session : SessionKey) -> DecodeOutcome {
       kind,
     })
     if kind == SetKind::Unknown {
+      if diagnostics.length() >= max_diagnostics {
+        return reject(
+          session,
+          DiagnosticCode::DiagnosticLimitExceeded,
+          cursor,
+          Some(observation_domain_id),
+          Some(set_id),
+          "Message exceeds the configured retained Diagnostic limit",
+        )
+      }
       diagnostics.push({
         code: DiagnosticCode::UnknownSetId,
         severity: DiagnosticSeverity::Warning,

@@ -59,6 +59,33 @@ pub fn StreamDecoder::with_registry_and_config(
 }
 
 ///|
+/// Combine protocol-state limits with the arbitrary-chunk retained-byte limit.
+pub fn StreamDecoder::with_limits_and_config(
+  session : SessionKey,
+  registry : @registry.Registry,
+  limits : DecoderLimits,
+  config : StreamDecoderConfig,
+) -> Result[StreamDecoder, StreamConstructionError] {
+  if config.max_buffered_bytes < message_header_length {
+    return Err(
+      StreamConfig(MaxBufferedBytesBelowHeader(config.max_buffered_bytes)),
+    )
+  }
+  if config.max_buffered_bytes > 65535 {
+    return Err(
+      StreamConfig(
+        MaxBufferedBytesAboveProtocolMaximum(config.max_buffered_bytes),
+      ),
+    )
+  }
+  let decoder = match Decoder::with_registry_and_limits(registry, limits) {
+    Ok(value) => value
+    Err(error) => return Err(DecoderConfig(error))
+  }
+  Ok({ session, decoder, config, buffer: [], boundary_lost: false })
+}
+
+///|
 pub fn StreamDecoder::buffered_len(self : StreamDecoder) -> Int {
   self.buffer.length()
 }
