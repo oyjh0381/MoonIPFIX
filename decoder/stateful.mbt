@@ -63,6 +63,31 @@ pub fn Decoder::set_session_transport(
 }
 
 ///|
+pub fn Decoder::active_templates(
+  self : Decoder,
+  session : SessionKey,
+) -> Array[TemplateRecord] {
+  let result : Array[TemplateRecord] = []
+  for pair in self.templates {
+    let (identity, template) = pair
+    if identity.session == session {
+      result.push(template)
+    }
+  }
+  result.sort_by((left, right) => {
+    let domain = left.identity.observation_domain_id.compare(
+      right.identity.observation_domain_id,
+    )
+    if domain != 0 {
+      domain
+    } else {
+      left.identity.template_id.compare(right.identity.template_id)
+    }
+  })
+  result
+}
+
+///|
 /// Drop every Template owned by one caller-defined Transport Session.
 pub fn Decoder::reset_session(
   self : Decoder,

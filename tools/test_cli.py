@@ -30,6 +30,18 @@ def main() -> None:
         valid_file = run("validate", str(path))
         assert valid_file.returncode == 0, valid_file.stderr.decode()
         assert {r["record_kind"] for r in json_lines(valid_file.stdout)} == {"sequence_audit", "statistics"}
+        template_report = run("templates", str(path))
+        assert template_report.returncode == 0
+        template_records = json_lines(template_report.stdout)
+        assert [r["record_kind"] for r in template_records] == ["template", "template_lifecycle", "template_state"]
+        assert template_records[-1]["fields"][0]["scope"] is False
+        stats_report = run("stats", str(path))
+        assert stats_report.returncode == 0
+        aggregate = json_lines(stats_report.stdout)[-1]
+        assert aggregate["record_kind"] == "stream_statistics"
+        assert aggregate["message_count"] == 1
+        assert aggregate["template_count"] == 1
+        assert aggregate["record_count"] == 0
     malformed = run("inspect", "-", stdin=BAD_LENGTH)
     assert malformed.returncode == 4
     assert b"error" in malformed.stderr.lower()
@@ -43,6 +55,9 @@ def main() -> None:
     over_diagnostics[2:4] = len(over_diagnostics).to_bytes(2, "big")
     limited = run("validate", "-", stdin=bytes(over_diagnostics))
     assert limited.returncode == 5
+    malformed_stats = run("stats", "-", stdin=BAD_LENGTH)
+    assert malformed_stats.returncode == 4
+    assert json_lines(malformed_stats.stdout)[0]["record_kind"] == "diagnostic"
     assert run("unknown-command").returncode == 2
     assert run("inspect", "definitely-missing.ipfix").returncode == 6
     print("CLI integration: all process and exit-contract checks passed")

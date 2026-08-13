@@ -49,6 +49,19 @@ fn json_string(value : String) -> String {
 
 ///|
 fn encode_template(template : @decoder.TemplateRecord) -> String {
+  encode_template_with_kind(template, "template")
+}
+
+///|
+pub fn encode_template_state(template : @decoder.TemplateRecord) -> String {
+  encode_template_with_kind(template, "template_state")
+}
+
+///|
+fn encode_template_with_kind(
+  template : @decoder.TemplateRecord,
+  record_kind : String,
+) -> String {
   let fields = StringBuilder::new()
   fields.write_char('[')
   for index in 0..<template.fields.length() {
@@ -62,8 +75,26 @@ fn encode_template(template : @decoder.TemplateRecord) -> String {
   }
   fields.write_char(']')
   envelope(
-    "template",
+    record_kind,
     "\"session\":\{json_string(template.identity.session.to_string())},\"observation_domain_id\":\{template.identity.observation_domain_id},\"template_id\":\{template.identity.template_id},\"template_kind\":\{json_string(template_kind(template.kind))},\"fields\":\{fields.to_string()}",
+  )
+}
+
+///|
+pub fn encode_stream_statistics(
+  session : String,
+  messages : Int,
+  sets : Int,
+  templates : Int,
+  records : Int,
+  fields : Int,
+  unknown_fields : Int,
+  diagnostics : Int,
+  sequence_gaps : Int,
+) -> String {
+  envelope(
+    "stream_statistics",
+    "\"session\":\{json_string(session)},\"message_count\":\{messages},\"set_count\":\{sets},\"template_count\":\{templates},\"record_count\":\{records},\"field_count\":\{fields},\"unknown_field_count\":\{unknown_fields},\"diagnostic_count\":\{diagnostics},\"sequence_gap_count\":\{sequence_gaps}",
   )
 }
 

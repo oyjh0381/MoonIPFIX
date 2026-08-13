@@ -14,6 +14,14 @@ struct CliStatus {
   mut warnings : Int
   mut malformed : Bool
   mut resource_limit : Bool
+  mut messages : Int
+  mut sets : Int
+  mut templates : Int
+  mut records : Int
+  mut fields : Int
+  mut unknown_fields : Int
+  mut diagnostics : Int
+  mut sequence_gaps : Int
 }
 
 ///|
@@ -71,7 +79,10 @@ async fn main {
 ///|
 fn parse_options(args : Array[String]) -> Result[CliOptions, String] {
   let command = args[1]
-  if command != "inspect" && command != "validate" {
+  if command != "inspect" &&
+    command != "validate" &&
+    command != "templates" &&
+    command != "stats" {
     return Err("unknown command: " + command)
   }
   let mut path = "-"
@@ -111,6 +122,14 @@ async fn process_input(input : &@io.Reader, options : CliOptions) -> CliStatus {
     warnings: 0,
     malformed: false,
     resource_limit: false,
+    messages: 0,
+    sets: 0,
+    templates: 0,
+    records: 0,
+    fields: 0,
+    unknown_fields: 0,
+    diagnostics: 0,
+    sequence_gaps: 0,
   }
   while input.read_some(max_len=8192) is Some(chunk) {
     consume_batch(stream.push(chunk), options.command, status)
@@ -125,6 +144,26 @@ async fn process_input(input : &@io.Reader, options : CliOptions) -> CliStatus {
     }
     BoundaryLost => status.malformed = true
   }
+  if options.command == "templates" {
+    for template in stream.active_templates() {
+      @stdio.stdout.write(@jsonl.encode_template_state(template) + "\n")
+    }
+  } else if options.command == "stats" {
+    @stdio.stdout.write(
+      @jsonl.encode_stream_statistics(
+        options.session,
+        status.messages,
+        status.sets,
+        status.templates,
+        status.records,
+        status.fields,
+        status.unknown_fields,
+        status.diagnostics,
+        status.sequence_gaps,
+      ) +
+      "\n",
+    )
+  }
   status
 }
 
@@ -137,6 +176,25 @@ async fn consume_batch(
   for outcome in batch.outcomes {
     match outcome {
       Decoded(message) => {
+        status.messages += 1
+        status.sets += message.statistics.set_count
+        status.templates += message.statistics.template_count
+        status.records += message.statistics.record_count
+        status.fields += message.statistics.field_count
+        status.diagnostics += message.statistics.diagnostic_count
+        match message.sequence {
+          Some(audit) if audit.continuity == @decoder.SequenceContinuity::Gap =>
+            status.sequence_gaps += 1
+          _ => ()
+        }
+        for record in message.records {
+          for field in record.fields {
+            match field.metadata {
+              @registry.Unresolved(_) => status.unknown_fields += 1
+              _ => ()
+            }
+          }
+        }
         for diagnostic in message.diagnostics {
           emit_human_diagnostic(diagnostic)
           if diagnostic.severity == Warning {
@@ -154,12 +212,16 @@ async fn consume_batch(
       }
       Rejected(diagnostics) => {
         status.malformed = true
+        status.diagnostics += diagnostics.length()
         for diagnostic in diagnostics {
           emit_human_diagnostic(diagnostic)
           if is_resource_limit(diagnostic.code) {
             status.resource_limit = true
           }
-          if command == "inspect" || command == "validate" {
+          if command == "inspect" ||
+            command == "validate" ||
+            command == "templates" ||
+            command == "stats" {
             @stdio.stdout.write(@jsonl.encode_diagnostic(diagnostic) + "\n")
           }
         }
@@ -177,10 +239,11 @@ fn include_line(command : String, line : String) -> Bool {
     line.contains("\"record_kind\":\"diagnostic\"") ||
     line.contains("\"record_kind\":\"sequence_audit\"") ||
     line.contains("\"record_kind\":\"statistics\"")
+  } else if command == "templates" {
+    line.contains("\"record_kind\":\"template\"") ||
+    line.contains("\"record_kind\":\"template_lifecycle\"")
   } else {
-    line.contains("\"record_kind\":\"diagnostic\"") ||
-    line.contains("\"record_kind\":\"sequence_audit\"") ||
-    line.contains("\"record_kind\":\"statistics\"")
+    line.contains("\"record_kind\":\"sequence_audit\"")
   }
 }
 
@@ -218,6 +281,8 @@ fn usage() -> String {
     #|Usage:
     #|  moonipfix inspect   [--session KEY] [--deny-warnings] [FILE|-]
     #|  moonipfix validate  [--session KEY] [--deny-warnings] [FILE|-]
+    #|  moonipfix templates [--session KEY] [FILE|-]
+    #|  moonipfix stats     [--session KEY] [FILE|-]
     #|  moonipfix version
     #|
     #|FILE defaults to stdin (-); the deterministic Session Key is cli:default.

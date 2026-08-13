@@ -91,6 +91,13 @@ pub fn StreamDecoder::buffered_len(self : StreamDecoder) -> Int {
 }
 
 ///|
+pub fn StreamDecoder::active_templates(
+  self : StreamDecoder,
+) -> Array[TemplateRecord] {
+  self.decoder.active_templates(self.session)
+}
+
+///|
 /// Push an arbitrary chunk. Complete Messages are passed through the same
 /// stateful Decoder used by the caller-delimited API and are applied once.
 pub fn StreamDecoder::push(self : StreamDecoder, chunk : Bytes) -> StreamBatch {
