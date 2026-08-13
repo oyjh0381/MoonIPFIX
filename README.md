@@ -1,50 +1,40 @@
 # MoonIPFIX
 
-MoonIPFIX is an original Apache-2.0 MoonBit library for decoding and auditing template-driven IP Flow Information Export (IPFIX) telemetry. It targets applications that need to consume exporter-produced IPFIX Messages without embedding a network collector, packet-capture parser, database, or visualization system.
+MoonIPFIX is an original Apache-2.0 MoonBit library and Native CLI for RFC 7011 IPFIX telemetry. It decodes Template/Options Template/Data Sets, maintains Session and Observation Domain state, audits Sequence Numbers, preserves unknown and Enterprise fields, and emits lossless schema-v1 JSONL.
 
-The project is currently at its design-baseline stage. The repository establishes the protocol scope, domain language, public Module seams, safety model, testing strategy, and implementation roadmap before protocol implementation begins.
+Unlike MoonCap-style PCAP decoders, MoonIPFIX consumes exporter-aggregated IPFIX Messages and interprets Data Records through dynamic Templates. It does not capture packets, derive flows, listen on sockets, persist data, implement NetFlow v9, or decode RFC 6313 structured lists.
 
-## Planned v0.1 scope
-
-- Decode RFC 7011 Message headers, Template Sets, Options Template Sets, Data Sets, and Data Records.
-- Maintain Template state by caller-provided Session Key, Observation Domain ID, and Template ID.
-- Support fixed-length and variable-length fields, Reduced-Size Encoding, Template Withdrawal, and Enterprise Information Elements.
-- Interpret standard Information Elements from a reproducible IANA registry snapshot while preserving unknown fields without data loss.
-- Expose both complete-message decoding and arbitrary-chunk streaming through one shared decoding implementation.
-- Return typed field values and structured Diagnostics with exact input offsets.
-- Enforce configurable limits for buffered bytes, sessions, Templates, fields, records, and Diagnostics.
-- Provide a Native `moonipfix` CLI with `inspect`, `validate`, `templates`, and `stats` commands and versioned JSONL output.
-
-## Public Module seams
-
-- `decoder` owns complete-message and streaming decoding, Template lifecycle, typed records, configuration, and Diagnostics.
-- `registry` owns the pinned IANA Information Element metadata and caller-supplied Enterprise metadata.
-- `jsonl` owns the stable, versioned machine-output contract.
-- `cmd/moonipfix` is the Native file/stdin and terminal adapter.
-
-Wire readers, Template storage mechanics, and recovery details remain implementation-internal. Tests and callers use the same public Interfaces.
-
-## Baseline verification
-
-Install the current MoonBit toolchain and run:
+## Try it
 
 ```sh
+moon run examples/library_decode
+python tools/make_example_stream.py
+moon run cmd/moonipfix --target native -- inspect .scratch/example.ipfix
+moon run cmd/moonipfix --target native -- templates .scratch/example.ipfix
+moon run cmd/moonipfix --target native -- stats .scratch/example.ipfix
+```
+
+`FILE` may be `-` for stdin. Add `--session KEY` to define the Template namespace and `--deny-warnings` to make warnings exit with code 3. See [CLI contract](docs/cli.md), [JSONL schema](docs/jsonl-schema.md), [field decoding](docs/field-decoding.md), [streaming](docs/streaming.md), [limits](docs/resource-limits.md), and [protocol scope](docs/protocol-scope.md).
+
+## Library
+
+Use `decoder::Decoder` for complete Messages or `decoder::StreamDecoder` for arbitrary chunks. Both share transactional Template/Sequence state. `registry::Registry::with_enterprise` adds caller-owned Enterprise metadata; unresolved identities remain raw. `jsonl::encode_message` creates deterministic single-line records.
+
+## Verify and benchmark
+
+```sh
+python tools/generate_registry.py --check
 moon fmt --check
 moon check --target all --deny-warn
 moon test --target wasm-gc --deny-warn
 moon test --target js --deny-warn
 moon test --target native --deny-warn
-moon run cmd/moonipfix --target native -- version
+python tools/test_cli.py
+python tools/benchmark_100k.py
 ```
 
-## Standards and project boundaries
+CI runs on Ubuntu, macOS, and Windows. Tests include RFC-shaped vectors, lifecycle matrices, limits, every split point, 64 replayable generated streams, 40 mutations, JSONL goldens, and process exit contracts.
 
-MoonIPFIX v0.1 is based on [RFC 7011](https://www.rfc-editor.org/info/rfc7011/), [RFC 7012](https://www.rfc-editor.org/info/rfc7012/), and the [IANA IPFIX Information Elements registry](https://www.iana.org/assignments/ipfix/ipfix.xhtml). See [protocol scope](docs/protocol-scope.md), [architecture](docs/architecture.md), [testing strategy](docs/testing.md), [security model](docs/security.md), and [ecosystem comparison](docs/ecosystem-review.md).
+## Provenance and license
 
-The first release does not implement an online Collector, Exporter encoding, NetFlow v9, RFC 6313 structured data, storage, or visualization. These are intentionally separate future decisions.
-
-MoonIPFIX is not a packet-capture decoder. Projects such as MoonCap decode PCAP/PCAPNG packets and derive packet-level flows; MoonIPFIX consumes exporter-produced IPFIX Messages whose Data Records are interpreted through dynamic Templates.
-
-## License
-
-Source code is licensed under the [Apache License 2.0](LICENSE). Standards, registry data, generated artifacts, dependencies, and test-material provenance are tracked in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The implementation is original, based on public [RFC 7011](https://www.rfc-editor.org/info/rfc7011/), [RFC 7012](https://www.rfc-editor.org/info/rfc7012/), and a pinned [IANA IE registry](https://www.iana.org/assignments/ipfix/ipfix.xhtml). See [ecosystem review](docs/ecosystem-review.md), [test provenance](docs/test-provenance.md), and [third-party notices](THIRD_PARTY_NOTICES.md). Licensed under [Apache-2.0](LICENSE).

@@ -11,4 +11,4 @@ test {
 }
 ```
 
-The design baseline exposes three public Module seams: `decoder` for complete-message and streaming behavior, `registry` for Information Element metadata, and `jsonl` for the versioned machine-output contract. Protocol implementation will proceed through the dependency-ordered GitHub specification.
+Use `@decoder.Decoder::new()` for complete Messages, `@decoder.StreamDecoder::new(session)` for arbitrary chunks, `@registry.Registry::with_enterprise` for caller metadata, and `@jsonl.encode_message` for schema-v1 output. Runnable code is in `examples/library_decode`.

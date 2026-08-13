@@ -12,4 +12,4 @@ The Registry Snapshot reflects the IANA registry state last updated 2026-07-22. 
 
 Synthetic fixtures will be authored for this project. Any external packet or telemetry fixture added later must be documented here with its source, license, purpose, and redistribution status.
 
-Any dependency added during implementation must be pinned in module metadata and documented here with its repository, version, license, and purpose.
+Runtime dependency: `moonbitlang/async` 0.20.4, Apache-2.0, used only by the Native CLI for portable files, stdin, stdout, and stderr. The portable decoder, registry, and JSONL packages use MoonBit core only.

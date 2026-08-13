@@ -2,6 +2,6 @@
 
 All notable changes to MoonIPFIX will be documented in this file.
 
-## Unreleased
+## 0.1.0 - 2026-08-13
 
-- Establish the MoonIPFIX design baseline, project boundaries, domain language, public Module seams, safety model, CI, and implementation specification.
+- Complete RFC 7011 framing, Template lifecycle, typed field decoding, streaming, sequence audit, limits, JSONL, four CLI commands, cross-target tests, examples, and benchmark.
