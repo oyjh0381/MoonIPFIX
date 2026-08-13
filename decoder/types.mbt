@@ -37,6 +37,7 @@ pub(all) enum DiagnosticCode {
   InvalidTemplateId
   InvalidTemplateFieldCount
   InvalidFieldLength
+  InvalidVariableLengthPrefix
   InvalidScopeFieldCount
   TruncatedTemplateRecord
   UnsupportedEnterpriseField
@@ -149,7 +150,11 @@ pub(all) struct TemplateRecord {
   fields : Array[FieldSpecifier]
   scope_fields : Array[FieldSpecifier]
   option_fields : Array[FieldSpecifier]
+  /// Exact length for fixed Templates; -1 when any field is variable-length.
   record_length : Int
+  /// Smallest possible encoded record, including variable-length prefixes.
+  minimum_record_length : Int
+  has_variable_length : Bool
 } derive(Debug, Eq)
 
 ///|
@@ -195,6 +200,8 @@ pub(all) struct TemplateLifecycleEvent {
 pub(all) enum FieldValue {
   Unsigned(UInt64)
   Signed(Int64)
+  Float32(Float)
+  Float64(Double)
   Boolean(Bool)
   MacAddress(Bytes)
   Ipv4Address(Bytes)
@@ -211,6 +218,10 @@ pub(all) enum FieldValue {
 pub(all) struct DecodedField {
   specifier : FieldSpecifier
   metadata : @registry.LookupResult
+  /// Offset of the field value, after any variable-length prefix.
+  offset : Int
+  /// Actual value octets consumed for this record.
+  encoded_length : Int
   value : FieldValue
 } derive(Debug, Eq)
 

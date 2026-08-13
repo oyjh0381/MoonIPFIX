@@ -261,32 +261,46 @@ fn parse_management_set(
       )
     }
     let fields : Array[FieldSpecifier] = []
-    let mut record_length = 0
+    let mut fixed_record_length = 0
+    let mut minimum_record_length = 0
+    let mut has_variable_length = false
     let mut field_cursor = cursor + header_length
     for _ in 0..<field_count {
-      let raw_element_id = read_u16_be(data, field_cursor)
-      let field_length = read_u16_be(data, field_cursor + 2).reinterpret_as_int()
-      if raw_element_id >= 0x8000U {
+      if end - field_cursor < 4 {
         return Err(
           template_diagnostic(
             message,
             set,
-            DiagnosticCode::UnsupportedEnterpriseField,
+            DiagnosticCode::TruncatedTemplateRecord,
             field_cursor,
-            "Enterprise Field Specifiers are implemented by the complete field-encoding slice",
+            "Field Specifier Header exceeds the containing Template Set",
           ),
         )
       }
-      if field_length == 65535 {
-        return Err(
-          template_diagnostic(
-            message,
-            set,
-            DiagnosticCode::UnsupportedVariableLengthField,
-            field_cursor + 2,
-            "variable-length fields are implemented by the complete field-encoding slice",
-          ),
+      let specifier_offset = field_cursor
+      let raw_element_id = read_u16_be(data, field_cursor)
+      let field_length = read_u16_be(data, field_cursor + 2).reinterpret_as_int()
+      let enterprise = raw_element_id >= 0x8000U
+      let identity = if enterprise {
+        if end - field_cursor < 8 {
+          return Err(
+            template_diagnostic(
+              message,
+              set,
+              DiagnosticCode::TruncatedTemplateRecord,
+              specifier_offset + 4,
+              "Enterprise Field Specifier is missing its Private Enterprise Number",
+            ),
+          )
+        }
+        let identity = @registry.InformationElementIdentity::enterprise(
+          read_u32_be(data, field_cursor + 4),
+          raw_element_id & 0x7fffU,
         )
+        field_cursor += 4
+        identity
+      } else {
+        @registry.InformationElementIdentity::standard(raw_element_id)
       }
       if field_length == 0 {
         return Err(
@@ -294,30 +308,36 @@ fn parse_management_set(
             message,
             set,
             DiagnosticCode::InvalidFieldLength,
-            field_cursor + 2,
-            "fixed-length Field Specifiers must consume at least one octet",
+            specifier_offset + 2,
+            "Field Specifiers must be fixed nonzero length or 65535 for variable length",
           ),
         )
       }
-      if field_length > 65535 - record_length {
+      let minimum_field_length = if field_length == 65535 {
+        has_variable_length = true
+        1
+      } else {
+        field_length
+      }
+      if minimum_field_length > 65535 - minimum_record_length {
         return Err(
           template_diagnostic(
             message,
             set,
             DiagnosticCode::TemplateRecordTooLarge,
-            field_cursor + 2,
+            specifier_offset + 2,
             "fixed Template record length exceeds one IPFIX Message",
           ),
         )
       }
-      fields.push({
-        identity: @registry.InformationElementIdentity::standard(raw_element_id),
-        length: field_length,
-      })
-      record_length += field_length
+      fields.push({ identity, length: field_length })
+      minimum_record_length += minimum_field_length
+      if field_length != 65535 {
+        fixed_record_length += field_length
+      }
       field_cursor += 4
     }
-    if record_length == 0 {
+    if minimum_record_length == 0 {
       return Err(
         template_diagnostic(
           message,
@@ -351,7 +371,13 @@ fn parse_management_set(
           fields,
           scope_fields,
           option_fields,
-          record_length,
+          record_length: if has_variable_length {
+            -1
+          } else {
+            fixed_record_length
+          },
+          minimum_record_length,
+          has_variable_length,
         },
         cursor,
       ),
@@ -544,14 +570,96 @@ fn Decoder::decode_data_set(
   let records : Array[DataRecord] = []
   let end = set.offset + set.length
   let mut cursor = set.payload_offset
-  while end - cursor >= template.record_length {
+  while end - cursor >= template.minimum_record_length {
     let record_offset = cursor
     let fields : Array[DecodedField] = []
     for specifier in template.fields {
+      let mut value_offset = cursor
+      let mut encoded_length = specifier.length
+      if specifier.length == 65535 {
+        if cursor >= end {
+          return Err(
+            data_diagnostic(
+              message,
+              set,
+              DiagnosticCode::IncompleteDataRecord,
+              cursor,
+              "variable-length field is missing its length prefix",
+            ),
+          )
+        }
+        let short_length = data[cursor].to_int()
+        if short_length < 255 {
+          value_offset = cursor + 1
+          encoded_length = short_length
+        } else {
+          if end - cursor < 3 {
+            return Err(
+              data_diagnostic(
+                message,
+                set,
+                DiagnosticCode::IncompleteDataRecord,
+                cursor,
+                "three-octet variable-length prefix is incomplete",
+              ),
+            )
+          }
+          value_offset = cursor + 3
+          encoded_length = read_u16_be(data, cursor + 1).reinterpret_as_int()
+          if encoded_length < 255 {
+            return Err(
+              data_diagnostic(
+                message,
+                set,
+                DiagnosticCode::InvalidVariableLengthPrefix,
+                cursor,
+                "lengths below 255 must use the one-octet variable-length prefix",
+              ),
+            )
+          }
+        }
+      } else {
+        value_offset = cursor
+        encoded_length = specifier.length
+      }
+      if encoded_length > end - value_offset {
+        return Err(
+          data_diagnostic(
+            message,
+            set,
+            DiagnosticCode::IncompleteDataRecord,
+            value_offset,
+            "field value exceeds the containing Data Set",
+          ),
+        )
+      }
       let metadata = self.registry.lookup(specifier.identity)
-      let value = decode_fixed_value(metadata, data, cursor, specifier.length)
-      fields.push({ specifier, metadata, value })
-      cursor += specifier.length
+      let (value, fallback_reason) = decode_field_value(
+        metadata, data, value_offset, encoded_length,
+      )
+      match fallback_reason {
+        Some(reason) =>
+          message.diagnostics.push(
+            make_diagnostic(
+              message.session,
+              DiagnosticCode::InvalidFieldEncoding,
+              DiagnosticSeverity::Warning,
+              value_offset,
+              Some(message.header.observation_domain_id),
+              Some(set.set_id),
+              reason,
+            ),
+          )
+        None => ()
+      }
+      fields.push({
+        specifier,
+        metadata,
+        offset: value_offset,
+        encoded_length,
+        value,
+      })
+      cursor = value_offset + encoded_length
     }
     records.push({ template: template.identity, offset: record_offset, fields })
   }
@@ -574,94 +682,205 @@ fn Decoder::decode_data_set(
 }
 
 ///|
-fn decode_fixed_value(
+fn decode_field_value(
   metadata : @registry.LookupResult,
   data : Bytes,
   offset : Int,
   length : Int,
-) -> FieldValue {
+) -> (FieldValue, String?) {
   match metadata {
     @registry.Resolved(element) =>
       match element.abstract_data_type {
-        @registry.AbstractDataType::Unsigned8
-        | @registry.AbstractDataType::Unsigned16
-        | @registry.AbstractDataType::Unsigned32
-        | @registry.AbstractDataType::Unsigned64 =>
-          if length <= 8 {
-            FieldValue::Unsigned(read_uint_be(data, offset, length))
+        @registry.AbstractDataType::Unsigned8 =>
+          if length == 1 {
+            (FieldValue::Unsigned(read_uint_be(data, offset, length)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "unsigned8 requires exactly one octet",
+            )
           }
-        @registry.AbstractDataType::Signed8
-        | @registry.AbstractDataType::Signed16
-        | @registry.AbstractDataType::Signed32
-        | @registry.AbstractDataType::Signed64 =>
-          if length <= 8 {
-            FieldValue::Signed(read_int_be(data, offset, length))
+        @registry.AbstractDataType::Unsigned16 =>
+          decode_reduced_unsigned(data, offset, length, 2)
+        @registry.AbstractDataType::Unsigned32 =>
+          decode_reduced_unsigned(data, offset, length, 4)
+        @registry.AbstractDataType::Unsigned64 =>
+          decode_reduced_unsigned(data, offset, length, 8)
+        @registry.AbstractDataType::Signed8 =>
+          if length == 1 {
+            (FieldValue::Signed(read_int_be(data, offset, length)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "signed8 requires exactly one octet",
+            )
+          }
+        @registry.AbstractDataType::Signed16 =>
+          decode_reduced_signed(data, offset, length, 2)
+        @registry.AbstractDataType::Signed32 =>
+          decode_reduced_signed(data, offset, length, 4)
+        @registry.AbstractDataType::Signed64 =>
+          decode_reduced_signed(data, offset, length, 8)
+        @registry.AbstractDataType::Float32 =>
+          if length == 4 {
+            (
+              FieldValue::Float32(
+                Float::reinterpret_from_uint(read_u32_be(data, offset)),
+              ),
+              None,
+            )
+          } else {
+            raw_fallback(data, offset, length, "float32 requires four octets")
+          }
+        @registry.AbstractDataType::Float64 =>
+          if length == 8 {
+            (
+              FieldValue::Float64(
+                read_uint_be(data, offset, length).reinterpret_as_double(),
+              ),
+              None,
+            )
+          } else {
+            raw_fallback(data, offset, length, "float64 requires eight octets")
           }
         @registry.AbstractDataType::Boolean =>
           if length == 1 && data[offset] == b'\x01' {
-            FieldValue::Boolean(true)
+            (FieldValue::Boolean(true), None)
           } else if length == 1 && data[offset] == b'\x02' {
-            FieldValue::Boolean(false)
+            (FieldValue::Boolean(false), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "boolean requires one octet with value 1 or 2",
+            )
           }
         @registry.AbstractDataType::MacAddress =>
           if length == 6 {
-            FieldValue::MacAddress(copy_bytes(data, offset, length))
+            (FieldValue::MacAddress(copy_bytes(data, offset, length)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(data, offset, length, "macAddress requires six octets")
           }
         @registry.AbstractDataType::Ipv4Address =>
           if length == 4 {
-            FieldValue::Ipv4Address(copy_bytes(data, offset, length))
+            (FieldValue::Ipv4Address(copy_bytes(data, offset, length)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "ipv4Address requires four octets",
+            )
           }
         @registry.AbstractDataType::Ipv6Address =>
           if length == 16 {
-            FieldValue::Ipv6Address(copy_bytes(data, offset, length))
+            (FieldValue::Ipv6Address(copy_bytes(data, offset, length)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "ipv6Address requires sixteen octets",
+            )
           }
         @registry.AbstractDataType::DateTimeSeconds =>
           if length == 4 {
-            FieldValue::DateTimeSeconds(read_u32_be(data, offset))
+            (FieldValue::DateTimeSeconds(read_u32_be(data, offset)), None)
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "dateTimeSeconds requires four octets",
+            )
           }
         @registry.AbstractDataType::DateTimeMilliseconds =>
           if length == 8 {
-            FieldValue::DateTimeMilliseconds(read_uint_be(data, offset, length))
+            (
+              FieldValue::DateTimeMilliseconds(
+                read_uint_be(data, offset, length),
+              ),
+              None,
+            )
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "dateTimeMilliseconds requires eight octets",
+            )
           }
         @registry.AbstractDataType::DateTimeMicroseconds =>
           if length == 8 {
-            FieldValue::DateTimeMicroseconds(read_uint_be(data, offset, length))
+            (
+              FieldValue::DateTimeMicroseconds(
+                read_uint_be(data, offset, length),
+              ),
+              None,
+            )
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "dateTimeMicroseconds requires eight octets",
+            )
           }
         @registry.AbstractDataType::DateTimeNanoseconds =>
           if length == 8 {
-            FieldValue::DateTimeNanoseconds(read_uint_be(data, offset, length))
+            (
+              FieldValue::DateTimeNanoseconds(
+                read_uint_be(data, offset, length),
+              ),
+              None,
+            )
           } else {
-            FieldValue::Octets(copy_bytes(data, offset, length))
+            raw_fallback(
+              data, offset, length, "dateTimeNanoseconds requires eight octets",
+            )
           }
         @registry.AbstractDataType::String => {
           let text = @utf8.decode(data[offset:offset + length]) catch {
-            _ => return FieldValue::Octets(copy_bytes(data, offset, length))
+            _ =>
+              return raw_fallback(
+                data, offset, length, "string contains invalid UTF-8",
+              )
           }
-          FieldValue::String(text)
+          (FieldValue::String(text), None)
         }
-        _ => FieldValue::Octets(copy_bytes(data, offset, length))
+        @registry.AbstractDataType::OctetArray =>
+          (FieldValue::Octets(copy_bytes(data, offset, length)), None)
+        _ =>
+          raw_fallback(
+            data, offset, length, "resolved Information Element type is outside the v0.1 typed scalar scope",
+          )
       }
     @registry.Unresolved(_) =>
-      FieldValue::Octets(copy_bytes(data, offset, length))
+      (FieldValue::Octets(copy_bytes(data, offset, length)), None)
   }
+}
+
+///|
+fn decode_reduced_unsigned(
+  data : Bytes,
+  offset : Int,
+  length : Int,
+  canonical_length : Int,
+) -> (FieldValue, String?) {
+  if length > 0 && length <= canonical_length {
+    (FieldValue::Unsigned(read_uint_be(data, offset, length)), None)
+  } else {
+    raw_fallback(
+      data, offset, length, "unsigned integer Reduced-Size Encoding exceeds its canonical width",
+    )
+  }
+}
+
+///|
+fn decode_reduced_signed(
+  data : Bytes,
+  offset : Int,
+  length : Int,
+  canonical_length : Int,
+) -> (FieldValue, String?) {
+  if length > 0 && length <= canonical_length {
+    (FieldValue::Signed(read_int_be(data, offset, length)), None)
+  } else {
+    raw_fallback(
+      data, offset, length, "signed integer Reduced-Size Encoding exceeds its canonical width",
+    )
+  }
+}
+
+///|
+fn raw_fallback(
+  data : Bytes,
+  offset : Int,
+  length : Int,
+  reason : String,
+) -> (FieldValue, String?) {
+  (FieldValue::Octets(copy_bytes(data, offset, length)), Some(reason))
 }
 
 ///|
@@ -702,6 +921,25 @@ fn bytes_are_zero(data : Bytes, offset : Int, length : Int) -> Bool {
 
 ///|
 fn template_diagnostic(
+  message : DecodedMessage,
+  set : SetSummary,
+  code : DiagnosticCode,
+  offset : Int,
+  text : String,
+) -> Diagnostic {
+  make_diagnostic(
+    message.session,
+    code,
+    DiagnosticSeverity::Error,
+    offset,
+    Some(message.header.observation_domain_id),
+    Some(set.set_id),
+    text,
+  )
+}
+
+///|
+fn data_diagnostic(
   message : DecodedMessage,
   set : SetSummary,
   code : DiagnosticCode,
