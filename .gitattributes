@@ -1,0 +1,2 @@
+# Preserve the byte-for-byte IANA source snapshot used by the digest check.
+registry/data/*.csv -text -diff

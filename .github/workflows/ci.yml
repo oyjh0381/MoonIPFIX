@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: hustcer/setup-moonbit@v1.22
+      - run: python tools/generate_registry.py --check
       - run: moon update
       - run: moon fmt --check
       - run: moon check --target all --deny-warn
