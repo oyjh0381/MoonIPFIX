@@ -120,7 +120,15 @@ pub fn decode_message(data : Bytes, session : SessionKey) -> DecodeOutcome {
     }
     cursor += set_length
   }
-  Decoded({ session, header, sets, templates: [], records: [], diagnostics })
+  Decoded({
+    session,
+    header,
+    sets,
+    templates: [],
+    records: [],
+    lifecycle: [],
+    diagnostics,
+  })
 }
 
 ///|

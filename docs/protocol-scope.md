@@ -31,4 +31,8 @@ Verified RFC errata that affect encoded behavior will be documented with the imp
 - Packet capture, packet protocol dissection, flow derivation, persistence, queries, dashboards, and visualization.
 - Runtime download of IANA registry data.
 
+## Transport lifecycle input
+
+The portable decoder does not infer transport type from a Session Key. Sessions use reliable-transport (TCP/SCTP) Template Withdrawal semantics by default. A caller processing UDP exports must call `Decoder::set_session_transport(session, TransportProtocol::Udp)`; MoonIPFIX will then report and ignore Template Withdrawal records as required by RFC 7011 section 8.4. `Decoder::reset_session` removes only the selected Session's retained state.
+
 Excluded capabilities may be proposed as separate milestones only after the v0.1 decoding contract is complete and verified.

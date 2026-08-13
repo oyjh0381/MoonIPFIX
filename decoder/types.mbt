@@ -37,6 +37,7 @@ pub(all) enum DiagnosticCode {
   InvalidTemplateId
   InvalidTemplateFieldCount
   InvalidFieldLength
+  InvalidScopeFieldCount
   TruncatedTemplateRecord
   UnsupportedEnterpriseField
   UnsupportedVariableLengthField
@@ -44,6 +45,9 @@ pub(all) enum DiagnosticCode {
   MissingTemplate
   IncompleteDataRecord
   InvalidFieldEncoding
+  TemplateRedefined
+  TemplateWithdrawalMissing
+  TemplateWithdrawalIgnoredForUdp
 } derive(Debug, Eq)
 
 ///|
@@ -103,6 +107,7 @@ pub(all) struct DecodedMessage {
   sets : Array[SetSummary]
   templates : Array[TemplateRecord]
   records : Array[DataRecord]
+  lifecycle : Array[TemplateLifecycleEvent]
   diagnostics : Array[Diagnostic]
 } derive(Debug, Eq)
 
@@ -140,8 +145,49 @@ pub(all) struct FieldSpecifier {
 /// Validated fixed-length Template Record.
 pub(all) struct TemplateRecord {
   identity : TemplateIdentity
+  kind : TemplateKind
   fields : Array[FieldSpecifier]
+  scope_fields : Array[FieldSpecifier]
+  option_fields : Array[FieldSpecifier]
   record_length : Int
+} derive(Debug, Eq)
+
+///|
+pub(all) enum TemplateKind {
+  Regular
+  Options
+} derive(Debug, Eq)
+
+///|
+pub(all) enum TemplateLifecycleAction {
+  Installed
+  Retransmitted
+  Replaced
+  Withdrawn
+  WithdrawnAll
+  WithdrawalMissing
+  WithdrawalIgnored
+  SessionReset
+} derive(Debug, Eq)
+
+///|
+/// Transport semantics relevant to RFC 7011 Template lifetime.
+pub(all) enum TransportProtocol {
+  Sctp
+  Tcp
+  Udp
+} derive(Debug, Eq)
+
+///|
+/// Observable state transition caused by one Template management action.
+pub(all) struct TemplateLifecycleEvent {
+  action : TemplateLifecycleAction
+  session : SessionKey
+  observation_domain_id : UInt?
+  template_id : UInt?
+  template_kind : TemplateKind?
+  affected : Int
+  offset : Int?
 } derive(Debug, Eq)
 
 ///|
@@ -180,4 +226,5 @@ pub(all) struct DataRecord {
 pub struct Decoder {
   registry : @registry.Registry
   templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
+  session_transports : @hashmap.HashMap[SessionKey, TransportProtocol]
 }

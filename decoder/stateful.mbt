@@ -1,15 +1,67 @@
 ///|
 /// Create a stateful decoder with the pinned standard IANA registry.
 pub fn Decoder::new() -> Decoder {
-  { registry: @registry.Registry::standard(), templates: @hashmap.HashMap([]) }
+  {
+    registry: @registry.Registry::standard(),
+    templates: @hashmap.HashMap([]),
+    session_transports: @hashmap.HashMap([]),
+  }
 }
 
 ///|
 /// Create a stateful decoder using standard IANA metadata plus caller-supplied
 /// Enterprise metadata.
 pub fn Decoder::with_registry(registry : @registry.Registry) -> Decoder {
-  { registry, templates: @hashmap.HashMap([]) }
+  {
+    registry,
+    templates: @hashmap.HashMap([]),
+    session_transports: @hashmap.HashMap([]),
+  }
 }
+
+///|
+/// Record transport semantics for a Session. Unspecified Sessions use
+/// reliable-transport withdrawal behavior; UDP must be marked explicitly.
+pub fn Decoder::set_session_transport(
+  self : Decoder,
+  session : SessionKey,
+  transport : TransportProtocol,
+) -> Unit {
+  self.session_transports.set(session, transport)
+}
+
+///|
+/// Drop every Template owned by one caller-defined Transport Session.
+pub fn Decoder::reset_session(
+  self : Decoder,
+  session : SessionKey,
+) -> TemplateLifecycleEvent {
+  let keys = self.templates.keys().to_array()
+  let mut removed = 0
+  for key in keys {
+    if key.session == session {
+      self.templates.remove(key)
+      removed += 1
+    }
+  }
+  self.session_transports.remove(session)
+  {
+    action: TemplateLifecycleAction::SessionReset,
+    session,
+    observation_domain_id: None,
+    template_id: None,
+    template_kind: None,
+    affected: removed,
+    offset: None,
+  }
+}
+
+///|
+enum TemplateManagementAction {
+  Define(TemplateRecord, Int)
+  WithdrawOne(TemplateIdentity, TemplateKind, Int)
+  WithdrawAll(SessionKey, UInt, TemplateKind, Int)
+} derive(Debug, Eq)
 
 ///|
 /// Decode one caller-delimited Message and update Template state only after all
@@ -32,23 +84,26 @@ fn Decoder::process_framed_message(
   data : Bytes,
   message : DecodedMessage,
 ) -> DecodeOutcome {
-  let staged : Array[TemplateRecord] = []
+  let management : Array[Array[TemplateManagementAction]?] = []
   for set in message.sets {
-    if set.kind == SetKind::Template {
-      match parse_template_set(data, message, set) {
-        Ok(records) =>
-          for record in records {
-            staged.push(record)
-          }
+    if set.kind == SetKind::Template || set.kind == SetKind::OptionsTemplate {
+      match parse_management_set(data, message, set) {
+        Ok(actions) => management.push(Some(actions))
         Err(diagnostic) => return Rejected([diagnostic])
       }
+    } else {
+      management.push(None)
     }
   }
-  for template in staged {
-    self.templates.set(template.identity, template)
-    message.templates.push(template)
-  }
-  for set in message.sets {
+  for index in 0..<message.sets.length() {
+    let set = message.sets[index]
+    match management[index] {
+      Some(actions) =>
+        for action in actions {
+          self.apply_management_action(message, action)
+        }
+      None => ()
+    }
     if set.kind == SetKind::Data {
       let identity : TemplateIdentity = {
         session: message.session,
@@ -83,12 +138,17 @@ fn Decoder::process_framed_message(
 }
 
 ///|
-fn parse_template_set(
+fn parse_management_set(
   data : Bytes,
   message : DecodedMessage,
   set : SetSummary,
-) -> Result[Array[TemplateRecord], Diagnostic] {
-  let records : Array[TemplateRecord] = []
+) -> Result[Array[TemplateManagementAction], Diagnostic] {
+  let actions : Array[TemplateManagementAction] = []
+  let template_kind = if set.kind == SetKind::OptionsTemplate {
+    TemplateKind::Options
+  } else {
+    TemplateKind::Regular
+  }
   let end = set.offset + set.length
   let mut cursor = set.payload_offset
   while cursor < end {
@@ -109,6 +169,42 @@ fn parse_template_set(
     }
     let template_id = read_u16_be(data, cursor)
     let field_count = read_u16_be(data, cursor + 2).reinterpret_as_int()
+    if field_count == 0 {
+      if template_id == set.set_id {
+        actions.push(
+          WithdrawAll(
+            message.session,
+            message.header.observation_domain_id,
+            template_kind,
+            cursor,
+          ),
+        )
+      } else if template_id >= 256U {
+        actions.push(
+          WithdrawOne(
+            {
+              session: message.session,
+              observation_domain_id: message.header.observation_domain_id,
+              template_id,
+            },
+            template_kind,
+            cursor,
+          ),
+        )
+      } else {
+        return Err(
+          template_diagnostic(
+            message,
+            set,
+            DiagnosticCode::InvalidTemplateId,
+            cursor,
+            "withdrawal Template ID must match the Set ID or be at least 256",
+          ),
+        )
+      }
+      cursor += 4
+      continue
+    }
     if template_id < 256U {
       return Err(
         template_diagnostic(
@@ -120,31 +216,53 @@ fn parse_template_set(
         ),
       )
     }
-    if field_count == 0 {
-      return Err(
-        template_diagnostic(
-          message,
-          set,
-          DiagnosticCode::InvalidTemplateFieldCount,
-          cursor + 2,
-          "zero-field Template Records are handled only as withdrawals",
-        ),
-      )
+    let header_length = if template_kind == TemplateKind::Options {
+      6
+    } else {
+      4
     }
-    if field_count > (end - cursor - 4) / 4 {
+    if end - cursor < header_length {
       return Err(
         template_diagnostic(
           message,
           set,
           DiagnosticCode::TruncatedTemplateRecord,
+          cursor,
+          "Template Record Header is incomplete",
+        ),
+      )
+    }
+    let scope_field_count = if template_kind == TemplateKind::Options {
+      read_u16_be(data, cursor + 4).reinterpret_as_int()
+    } else {
+      0
+    }
+    if template_kind == TemplateKind::Options &&
+      (scope_field_count == 0 || scope_field_count > field_count) {
+      return Err(
+        template_diagnostic(
+          message,
+          set,
+          DiagnosticCode::InvalidScopeFieldCount,
           cursor + 4,
+          "Options Scope Field Count must be between one and Field Count",
+        ),
+      )
+    }
+    if field_count > (end - cursor - header_length) / 4 {
+      return Err(
+        template_diagnostic(
+          message,
+          set,
+          DiagnosticCode::TruncatedTemplateRecord,
+          cursor + header_length,
           "Field Specifiers exceed the containing Template Set",
         ),
       )
     }
     let fields : Array[FieldSpecifier] = []
     let mut record_length = 0
-    let mut field_cursor = cursor + 4
+    let mut field_cursor = cursor + header_length
     for _ in 0..<field_count {
       let raw_element_id = read_u16_be(data, field_cursor)
       let field_length = read_u16_be(data, field_cursor + 2).reinterpret_as_int()
@@ -210,18 +328,209 @@ fn parse_template_set(
         ),
       )
     }
-    records.push({
-      identity: {
-        session: message.session,
-        observation_domain_id: message.header.observation_domain_id,
-        template_id,
-      },
-      fields,
-      record_length,
-    })
+    let scope_fields : Array[FieldSpecifier] = []
+    let option_fields : Array[FieldSpecifier] = []
+    if template_kind == TemplateKind::Options {
+      for index in 0..<fields.length() {
+        if index < scope_field_count {
+          scope_fields.push(fields[index])
+        } else {
+          option_fields.push(fields[index])
+        }
+      }
+    }
+    actions.push(
+      Define(
+        {
+          identity: {
+            session: message.session,
+            observation_domain_id: message.header.observation_domain_id,
+            template_id,
+          },
+          kind: template_kind,
+          fields,
+          scope_fields,
+          option_fields,
+          record_length,
+        },
+        cursor,
+      ),
+    )
     cursor = field_cursor
   }
-  Ok(records)
+  Ok(actions)
+}
+
+///|
+fn Decoder::apply_management_action(
+  self : Decoder,
+  message : DecodedMessage,
+  action : TemplateManagementAction,
+) -> Unit {
+  match action {
+    Define(template, offset) => {
+      let lifecycle_action = match self.templates.get(template.identity) {
+        None => {
+          self.templates.set(template.identity, template)
+          TemplateLifecycleAction::Installed
+        }
+        Some(existing) =>
+          if existing == template {
+            TemplateLifecycleAction::Retransmitted
+          } else {
+            self.templates.set(template.identity, template)
+            message.diagnostics.push(
+              make_diagnostic(
+                message.session,
+                DiagnosticCode::TemplateRedefined,
+                DiagnosticSeverity::Warning,
+                offset,
+                Some(template.identity.observation_domain_id),
+                Some(template.identity.template_id),
+                "a different definition replaced the scoped Template",
+              ),
+            )
+            TemplateLifecycleAction::Replaced
+          }
+      }
+      message.templates.push(template)
+      message.lifecycle.push({
+        action: lifecycle_action,
+        session: template.identity.session,
+        observation_domain_id: Some(template.identity.observation_domain_id),
+        template_id: Some(template.identity.template_id),
+        template_kind: Some(template.kind),
+        affected: 1,
+        offset: Some(offset),
+      })
+    }
+    WithdrawOne(identity, kind, offset) =>
+      if self.session_uses_udp(identity.session) {
+        message.diagnostics.push(
+          make_diagnostic(
+            message.session,
+            DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
+            DiagnosticSeverity::Warning,
+            offset,
+            Some(identity.observation_domain_id),
+            Some(identity.template_id),
+            "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
+          ),
+        )
+        message.lifecycle.push({
+          action: TemplateLifecycleAction::WithdrawalIgnored,
+          session: identity.session,
+          observation_domain_id: Some(identity.observation_domain_id),
+          template_id: Some(identity.template_id),
+          template_kind: Some(kind),
+          affected: 0,
+          offset: Some(offset),
+        })
+      } else {
+        match self.templates.get(identity) {
+          Some(existing) if existing.kind == kind => {
+            self.templates.remove(identity)
+            message.lifecycle.push({
+              action: TemplateLifecycleAction::Withdrawn,
+              session: identity.session,
+              observation_domain_id: Some(identity.observation_domain_id),
+              template_id: Some(identity.template_id),
+              template_kind: Some(kind),
+              affected: 1,
+              offset: Some(offset),
+            })
+          }
+          _ => {
+            message.diagnostics.push(
+              make_diagnostic(
+                message.session,
+                DiagnosticCode::TemplateWithdrawalMissing,
+                DiagnosticSeverity::Warning,
+                offset,
+                Some(identity.observation_domain_id),
+                Some(identity.template_id),
+                "withdrawal was ignored because the scoped Template is not stored with this kind",
+              ),
+            )
+            message.lifecycle.push({
+              action: TemplateLifecycleAction::WithdrawalMissing,
+              session: identity.session,
+              observation_domain_id: Some(identity.observation_domain_id),
+              template_id: Some(identity.template_id),
+              template_kind: Some(kind),
+              affected: 0,
+              offset: Some(offset),
+            })
+          }
+        }
+      }
+    WithdrawAll(session, observation_domain_id, kind, offset) => {
+      if self.session_uses_udp(session) {
+        message.diagnostics.push(
+          make_diagnostic(
+            message.session,
+            DiagnosticCode::TemplateWithdrawalIgnoredForUdp,
+            DiagnosticSeverity::Warning,
+            offset,
+            Some(observation_domain_id),
+            None,
+            "RFC 7011 requires Collecting Processes to ignore UDP Template Withdrawals",
+          ),
+        )
+        message.lifecycle.push({
+          action: TemplateLifecycleAction::WithdrawalIgnored,
+          session,
+          observation_domain_id: Some(observation_domain_id),
+          template_id: None,
+          template_kind: Some(kind),
+          affected: 0,
+          offset: Some(offset),
+        })
+        return
+      }
+      let keys = self.templates.keys().to_array()
+      let mut removed = 0
+      for key in keys {
+        if key.session == session &&
+          key.observation_domain_id == observation_domain_id {
+          match self.templates.get(key) {
+            Some(template) if template.kind == kind => {
+              self.templates.remove(key)
+              removed += 1
+            }
+            _ => ()
+          }
+        }
+      }
+      if removed == 0 {
+        message.diagnostics.push(
+          make_diagnostic(
+            message.session,
+            DiagnosticCode::TemplateWithdrawalMissing,
+            DiagnosticSeverity::Warning,
+            offset,
+            Some(observation_domain_id),
+            None,
+            "all-Templates withdrawal matched no stored Templates of this kind",
+          ),
+        )
+      }
+      message.lifecycle.push({
+        action: TemplateLifecycleAction::WithdrawnAll,
+        session,
+        observation_domain_id: Some(observation_domain_id),
+        template_id: None,
+        template_kind: Some(kind),
+        affected: removed,
+        offset: Some(offset),
+      })
+    }
+  }
+}
+
+///|
+fn Decoder::session_uses_udp(self : Decoder, session : SessionKey) -> Bool {
+  self.session_transports.get(session) == Some(TransportProtocol::Udp)
 }
 
 ///|
