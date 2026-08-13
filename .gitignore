@@ -1,0 +1,7 @@
+_build/
+.mooncakes/
+pkg.generated.mbti
+.scratch/
+.private/
+*.moonipfix.jsonl
+*.moonipfix.report.json
