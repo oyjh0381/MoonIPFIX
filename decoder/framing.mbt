@@ -127,6 +127,16 @@ pub fn decode_message(data : Bytes, session : SessionKey) -> DecodeOutcome {
     templates: [],
     records: [],
     lifecycle: [],
+    sequence: None,
+    statistics: {
+      message_count: 1,
+      set_count: sets.length(),
+      template_count: 0,
+      lifecycle_count: 0,
+      record_count: 0,
+      field_count: 0,
+      diagnostic_count: diagnostics.length(),
+    },
     diagnostics,
   })
 }

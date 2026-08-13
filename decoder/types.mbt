@@ -49,6 +49,8 @@ pub(all) enum DiagnosticCode {
   TemplateRedefined
   TemplateWithdrawalMissing
   TemplateWithdrawalIgnoredForUdp
+  SequenceGap
+  SequenceUnverifiable
   StreamBufferLimitExceeded
   StreamBoundaryLost
 } derive(Debug, Eq)
@@ -111,6 +113,8 @@ pub(all) struct DecodedMessage {
   templates : Array[TemplateRecord]
   records : Array[DataRecord]
   lifecycle : Array[TemplateLifecycleEvent]
+  mut sequence : SequenceAudit?
+  mut statistics : MessageStatistics
   diagnostics : Array[Diagnostic]
 } derive(Debug, Eq)
 
@@ -175,6 +179,7 @@ pub(all) enum TemplateLifecycleAction {
   WithdrawalMissing
   WithdrawalIgnored
   SessionReset
+  DataSetUnresolved
 } derive(Debug, Eq)
 
 ///|
@@ -195,6 +200,40 @@ pub(all) struct TemplateLifecycleEvent {
   template_kind : TemplateKind?
   affected : Int
   offset : Int?
+} derive(Debug, Eq)
+
+///|
+pub(all) enum SequenceContinuity {
+  Baseline
+  Continuous
+  Gap
+  Unverifiable
+} derive(Debug, Eq)
+
+///|
+/// Per-Message Sequence Number evidence. `missing` is the modulo-2^32 forward
+/// distance from expected to observed and is present only for a detected gap.
+pub(all) struct SequenceAudit {
+  session : SessionKey
+  observation_domain_id : UInt
+  continuity : SequenceContinuity
+  observed : UInt
+  expected : UInt?
+  missing : UInt?
+  decoded_record_count : Int
+  record_count_complete : Bool
+  next_expected : UInt?
+} derive(Debug, Eq)
+
+///|
+pub(all) struct MessageStatistics {
+  message_count : Int
+  set_count : Int
+  template_count : Int
+  lifecycle_count : Int
+  record_count : Int
+  field_count : Int
+  diagnostic_count : Int
 } derive(Debug, Eq)
 
 ///|
@@ -240,7 +279,14 @@ pub struct Decoder {
   registry : @registry.Registry
   templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
   session_transports : @hashmap.HashMap[SessionKey, TransportProtocol]
+  sequence_state : @hashmap.HashMap[SequenceIdentity, UInt]
 }
+
+///|
+struct SequenceIdentity {
+  session : SessionKey
+  observation_domain_id : UInt
+} derive(Debug, Eq, Hash)
 
 ///|
 /// Maximum retained incomplete-message bytes. A valid IPFIX Message can be at

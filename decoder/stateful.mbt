@@ -5,6 +5,7 @@ pub fn Decoder::new() -> Decoder {
     registry: @registry.Registry::standard(),
     templates: @hashmap.HashMap([]),
     session_transports: @hashmap.HashMap([]),
+    sequence_state: @hashmap.HashMap([]),
   }
 }
 
@@ -16,6 +17,7 @@ pub fn Decoder::with_registry(registry : @registry.Registry) -> Decoder {
     registry,
     templates: @hashmap.HashMap([]),
     session_transports: @hashmap.HashMap([]),
+    sequence_state: @hashmap.HashMap([]),
   }
 }
 
@@ -45,6 +47,12 @@ pub fn Decoder::reset_session(
     }
   }
   self.session_transports.remove(session)
+  let sequence_keys = self.sequence_state.keys().to_array()
+  for key in sequence_keys {
+    if key.session == session {
+      self.sequence_state.remove(key)
+    }
+  }
   {
     action: TemplateLifecycleAction::SessionReset,
     session,
@@ -85,6 +93,7 @@ fn Decoder::process_framed_message(
   message : DecodedMessage,
 ) -> DecodeOutcome {
   let management : Array[Array[TemplateManagementAction]?] = []
+  let mut record_count_complete = true
   for set in message.sets {
     if set.kind == SetKind::Template || set.kind == SetKind::OptionsTemplate {
       match parse_management_set(data, message, set) {
@@ -111,7 +120,8 @@ fn Decoder::process_framed_message(
         template_id: set.set_id,
       }
       match self.templates.get(identity) {
-        None =>
+        None => {
+          record_count_complete = false
           message.diagnostics.push(
             make_diagnostic(
               message.session,
@@ -123,6 +133,16 @@ fn Decoder::process_framed_message(
               "Data Set has no Template in this Session and Observation Domain",
             ),
           )
+          message.lifecycle.push({
+            action: TemplateLifecycleAction::DataSetUnresolved,
+            session: message.session,
+            observation_domain_id: Some(message.header.observation_domain_id),
+            template_id: Some(set.set_id),
+            template_kind: None,
+            affected: 0,
+            offset: Some(set.offset),
+          })
+        }
         Some(template) =>
           match self.decode_data_set(data, message, set, template) {
             Ok(records) =>
@@ -134,7 +154,127 @@ fn Decoder::process_framed_message(
       }
     }
   }
+  self.audit_sequence(message, record_count_complete)
+  update_message_statistics(message)
   Decoded(message)
+}
+
+///|
+fn Decoder::audit_sequence(
+  self : Decoder,
+  message : DecodedMessage,
+  record_count_complete : Bool,
+) -> Unit {
+  let identity : SequenceIdentity = {
+    session: message.session,
+    observation_domain_id: message.header.observation_domain_id,
+  }
+  let observed = message.header.sequence_number
+  let expected = self.sequence_state.get(identity)
+  let missing = match expected {
+    Some(value) => {
+      let distance = sequence_distance(value, observed)
+      if distance == 0U {
+        None
+      } else {
+        Some(distance)
+      }
+    }
+    None => None
+  }
+  if !record_count_complete {
+    self.sequence_state.remove(identity)
+    message.sequence = Some({
+      session: message.session,
+      observation_domain_id: message.header.observation_domain_id,
+      continuity: SequenceContinuity::Unverifiable,
+      observed,
+      expected,
+      missing,
+      decoded_record_count: message.records.length(),
+      record_count_complete: false,
+      next_expected: None,
+    })
+    message.diagnostics.push(
+      make_diagnostic(
+        message.session,
+        DiagnosticCode::SequenceUnverifiable,
+        DiagnosticSeverity::Warning,
+        8,
+        Some(message.header.observation_domain_id),
+        None,
+        "Sequence continuity cannot advance because at least one Data Set had no applicable Template",
+      ),
+    )
+    return
+  }
+  let next_expected = sequence_advance(observed, message.records.length())
+  self.sequence_state.set(identity, next_expected)
+  let continuity = match expected {
+    None => SequenceContinuity::Baseline
+    Some(_) =>
+      match missing {
+        None => SequenceContinuity::Continuous
+        Some(_) => SequenceContinuity::Gap
+      }
+  }
+  message.sequence = Some({
+    session: message.session,
+    observation_domain_id: message.header.observation_domain_id,
+    continuity,
+    observed,
+    expected,
+    missing,
+    decoded_record_count: message.records.length(),
+    record_count_complete: true,
+    next_expected: Some(next_expected),
+  })
+  match missing {
+    Some(_) =>
+      message.diagnostics.push(
+        make_diagnostic(
+          message.session,
+          DiagnosticCode::SequenceGap,
+          DiagnosticSeverity::Warning,
+          8,
+          Some(message.header.observation_domain_id),
+          None,
+          "observed Sequence Number differs from the expected Data Record count",
+        ),
+      )
+    None => ()
+  }
+}
+
+///|
+fn sequence_distance(expected : UInt, observed : UInt) -> UInt {
+  if observed >= expected {
+    observed - expected
+  } else {
+    (0x1_0000_0000UL - expected.to_uint64() + observed.to_uint64()).to_uint()
+  }
+}
+
+///|
+fn sequence_advance(observed : UInt, record_count : Int) -> UInt {
+  ((observed.to_uint64() + record_count.to_uint64()) % 0x1_0000_0000UL).to_uint()
+}
+
+///|
+fn update_message_statistics(message : DecodedMessage) -> Unit {
+  let mut field_count = 0
+  for record in message.records {
+    field_count += record.fields.length()
+  }
+  message.statistics = {
+    message_count: 1,
+    set_count: message.sets.length(),
+    template_count: message.templates.length(),
+    lifecycle_count: message.lifecycle.length(),
+    record_count: message.records.length(),
+    field_count,
+    diagnostic_count: message.diagnostics.length(),
+  }
 }
 
 ///|

@@ -148,8 +148,12 @@ test "template namespaces include Session and Observation Domain" {
     ) {
     Decoded(message) => {
       assert_eq(message.records.length(), 0)
-      assert_eq(message.diagnostics.length(), 1)
+      assert_eq(message.diagnostics.length(), 2)
       assert_eq(message.diagnostics[0].code, DiagnosticCode::MissingTemplate)
+      assert_eq(
+        message.diagnostics[1].code,
+        DiagnosticCode::SequenceUnverifiable,
+      )
       assert_eq(message.diagnostics[0].context.set_id, Some(256U))
     }
     _ => fail("missing schema is a reportable state, not guessed decoding")
