@@ -5,7 +5,7 @@
 /// a stable identity that separates template namespaces for distinct exporters.
 pub struct SessionKey {
   value : String
-} derive(Debug, Eq)
+} derive(Debug, Eq, Hash)
 
 ///|
 pub fn SessionKey::new(value : String) -> SessionKey {
@@ -34,6 +34,16 @@ pub(all) enum DiagnosticCode {
   InvalidSetLength
   SetExceedsMessage
   UnknownSetId
+  InvalidTemplateId
+  InvalidTemplateFieldCount
+  InvalidFieldLength
+  TruncatedTemplateRecord
+  UnsupportedEnterpriseField
+  UnsupportedVariableLengthField
+  TemplateRecordTooLarge
+  MissingTemplate
+  IncompleteDataRecord
+  InvalidFieldEncoding
 } derive(Debug, Eq)
 
 ///|
@@ -91,6 +101,8 @@ pub(all) struct DecodedMessage {
   session : SessionKey
   header : MessageHeader
   sets : Array[SetSummary]
+  templates : Array[TemplateRecord]
+  records : Array[DataRecord]
   diagnostics : Array[Diagnostic]
 } derive(Debug, Eq)
 
@@ -108,3 +120,64 @@ pub(all) enum DecodeOutcome {
   NeedMoreData(NeedMore)
   Rejected(Array[Diagnostic])
 } derive(Debug, Eq)
+
+///|
+/// Full Template namespace required by RFC 7011.
+pub(all) struct TemplateIdentity {
+  session : SessionKey
+  observation_domain_id : UInt
+  template_id : UInt
+} derive(Debug, Eq, Hash)
+
+///|
+/// One ordered field declaration from a Template Record.
+pub(all) struct FieldSpecifier {
+  identity : @registry.InformationElementIdentity
+  length : Int
+} derive(Debug, Eq)
+
+///|
+/// Validated fixed-length Template Record.
+pub(all) struct TemplateRecord {
+  identity : TemplateIdentity
+  fields : Array[FieldSpecifier]
+  record_length : Int
+} derive(Debug, Eq)
+
+///|
+/// Typed values supported by the fixed-length decoding tracer bullet.
+pub(all) enum FieldValue {
+  Unsigned(UInt64)
+  Signed(Int64)
+  Boolean(Bool)
+  MacAddress(Bytes)
+  Ipv4Address(Bytes)
+  Ipv6Address(Bytes)
+  DateTimeSeconds(UInt)
+  DateTimeMilliseconds(UInt64)
+  DateTimeMicroseconds(UInt64)
+  DateTimeNanoseconds(UInt64)
+  String(String)
+  Octets(Bytes)
+} derive(Debug, Eq)
+
+///|
+pub(all) struct DecodedField {
+  specifier : FieldSpecifier
+  metadata : @registry.LookupResult
+  value : FieldValue
+} derive(Debug, Eq)
+
+///|
+pub(all) struct DataRecord {
+  template : TemplateIdentity
+  offset : Int
+  fields : Array[DecodedField]
+} derive(Debug, Eq)
+
+///|
+/// Stateful decoder retaining Templates between complete Messages.
+pub struct Decoder {
+  registry : @registry.Registry
+  templates : @hashmap.HashMap[TemplateIdentity, TemplateRecord]
+}
