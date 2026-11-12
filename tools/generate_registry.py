@@ -125,7 +125,7 @@ def render() -> str:
         f"pub let iana_sha256 : String = {moon_string(EXPECTED_SHA256)}",
         "",
         "///|",
-        f"pub let iana_entry_count : Int = {len(entries)}",
+        f"pub let iana_entry_count : Int32 = {len(entries)}",
         "",
         "///|",
         "let iana_entries : Array[ElementMetadata] = [",
@@ -143,7 +143,7 @@ def render() -> str:
         lines.extend(
             [
                 "  {",
-                f"    identity: {{ enterprise_number: 0U, element_id: {entry['id']}U }},",
+                f"    identity: {{ enterprise_number: 0U, element_id: {entry['id']}U, }},",
                 f"    name: {moon_string(entry['name'])},",
                 "    abstract_data_type: "
                 f"AbstractDataType::{TYPE_VARIANTS[entry['type']]},",
