@@ -4,6 +4,9 @@ MoonIPFIX is an original Apache-2.0 MoonBit library and Native CLI for RFC 7011 
 
 Unlike MoonCap-style PCAP decoders, MoonIPFIX consumes exporter-aggregated IPFIX Messages and interprets Data Records through dynamic Templates. It does not capture packets, derive flows, listen on sockets, persist data, implement NetFlow v9, or decode RFC 6313 structured lists.
 
+The source and CI checks were validated with the official MoonBit toolchain
+(`moon 0.1.20261104`, `moonc v0.10.20+65efd5b93`). Use this toolchain or a compatible newer release to build from source.
+
 ## Try it
 
 ```sh

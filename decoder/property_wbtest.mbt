@@ -1,5 +1,5 @@
 ///|
-fn seeded_chunks(source : Bytes, seed : Int) -> Array[Bytes] {
+fn seeded_chunks(source : Bytes, seed : Int32) -> Array[Bytes] {
   let chunks : Array[Bytes] = []
   let mut cursor = 0
   let mut state = seed

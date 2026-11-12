@@ -24,7 +24,7 @@ test "configured limits validate positivity and immutable hard ceilings" {
     }
     _ => fail("hard ceiling must not be configurable away")
   }
-  let zero_sessions = { ..DecoderLimits::default(), max_sessions: 0 }
+  let zero_sessions = { ..DecoderLimits::default(), max_sessions: 0, }
   match Decoder::with_limits(zero_sessions) {
     Err(NonPositive(name, value)) => {
       assert_eq(name, "max_sessions")
@@ -104,7 +104,7 @@ test "variable value and record limits remain bounded" {
 
 ///|
 test "Diagnostic limits classify warning expansion and preserve prior state" {
-  let limits = { ..compact_limits(), max_diagnostics_per_message: 1 }
+  let limits = { ..compact_limits(), max_diagnostics_per_message: 1, }
   let decoder = Decoder::with_limits(limits).unwrap()
   let session = SessionKey::new("tcp:diagnostic-limit")
   ignore(decoder.decode_message(replacement_template_message(), session))

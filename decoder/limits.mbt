@@ -48,8 +48,8 @@ fn validate_limits(limits : DecoderLimits) -> Result[Unit, LimitConfigError] {
 ///|
 fn validate_limit(
   name : String,
-  value : Int,
-  hard_ceiling : Int,
+  value : Int32,
+  hard_ceiling : Int32,
 ) -> Result[Unit, LimitConfigError] {
   if value <= 0 {
     Err(NonPositive(name, value))

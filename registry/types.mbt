@@ -1,28 +1,30 @@
 ///|
 /// Lossless IPFIX Information Element identity. Enterprise number zero denotes
 /// the standard IANA namespace.
+#derive(Debug, Eq)
 pub(all) struct InformationElementIdentity {
-  enterprise_number : UInt
-  element_id : UInt
-} derive(Debug, Eq)
+  enterprise_number : UInt32
+  element_id : UInt32
+}
 
 ///|
 pub fn InformationElementIdentity::standard(
-  element_id : UInt,
+  element_id : UInt32,
 ) -> InformationElementIdentity {
-  { enterprise_number: 0U, element_id }
+  { enterprise_number: 0U, element_id, }
 }
 
 ///|
 pub fn InformationElementIdentity::enterprise(
-  enterprise_number : UInt,
-  element_id : UInt,
+  enterprise_number : UInt32,
+  element_id : UInt32,
 ) -> InformationElementIdentity {
-  { enterprise_number, element_id }
+  { enterprise_number, element_id, }
 }
 
 ///|
 /// RFC 7012/IANA abstract data types used to interpret field octets.
+#derive(Debug, Eq)
 pub(all) enum AbstractDataType {
   OctetArray
   Unsigned8
@@ -49,17 +51,19 @@ pub(all) enum AbstractDataType {
   SubTemplateList
   SubTemplateMultiList
   Unknown(String)
-} derive(Debug, Eq)
+}
 
 ///|
+#derive(Debug, Eq)
 pub(all) enum RegistryStatus {
   Current
   Deprecated
   Unknown(String)
-} derive(Debug, Eq)
+}
 
 ///|
 /// Metadata sufficient for wire decoding and stable presentation.
+#derive(Debug, Eq)
 pub(all) struct ElementMetadata {
   identity : InformationElementIdentity
   name : String
@@ -67,24 +71,71 @@ pub(all) struct ElementMetadata {
   semantics : String?
   units : String?
   status : RegistryStatus
-  canonical_length : Int?
-} derive(Debug, Eq)
+  canonical_length : Int32?
+}
 
 ///|
 /// Lookup never fabricates metadata for unknown identities.
+#derive(Debug, Eq)
 pub(all) enum LookupResult {
   Resolved(ElementMetadata)
   Unresolved(InformationElementIdentity)
-} derive(Debug, Eq)
+}
 
 ///|
+#derive(Debug, Eq)
 pub(all) enum RegistryError {
   StandardIdentityReserved(InformationElementIdentity)
   DuplicateIdentity(InformationElementIdentity)
-} derive(Debug, Eq)
+}
 
 ///|
 /// Standard IANA metadata plus a defensive copy of caller Enterprise metadata.
+#derive(Debug, Eq)
 pub struct Registry {
   enterprise_metadata : Array[ElementMetadata]
-} derive(Debug, Eq)
+}
+
+///|
+pub extend AbstractDataType with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend AbstractDataType with Eq::{not_equal, equal}
+
+///|
+pub extend ElementMetadata with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ElementMetadata with Eq::{not_equal, equal}
+
+///|
+pub extend InformationElementIdentity with @moonbitlang/core/debug.Debug::{
+  to_repr,
+}
+
+///|
+pub extend InformationElementIdentity with Eq::{not_equal, equal}
+
+///|
+pub extend LookupResult with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend LookupResult with Eq::{not_equal, equal}
+
+///|
+pub extend Registry with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Registry with Eq::{not_equal, equal}
+
+///|
+pub extend RegistryError with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend RegistryError with Eq::{not_equal, equal}
+
+///|
+pub extend RegistryStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend RegistryStatus with Eq::{not_equal, equal}

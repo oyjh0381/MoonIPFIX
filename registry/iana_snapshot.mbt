@@ -10,12 +10,12 @@ pub let iana_retrieved_on : String = "2026-08-13"
 pub let iana_sha256 : String = "896357e0296d8541fa4b7e0afd2dce48b52562dcfdf5437ac36cea428ecdc930"
 
 ///|
-pub let iana_entry_count : Int = 502
+pub let iana_entry_count : Int32 = 502
 
 ///|
 let iana_entries : Array[ElementMetadata] = [
   {
-    identity: { enterprise_number: 0U, element_id: 1U },
+    identity: { enterprise_number: 0U, element_id: 1U, },
     name: "octetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -24,7 +24,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 2U },
+    identity: { enterprise_number: 0U, element_id: 2U, },
     name: "packetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -33,7 +33,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 3U },
+    identity: { enterprise_number: 0U, element_id: 3U, },
     name: "deltaFlowCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -42,7 +42,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 4U },
+    identity: { enterprise_number: 0U, element_id: 4U, },
     name: "protocolIdentifier",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -51,7 +51,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 5U },
+    identity: { enterprise_number: 0U, element_id: 5U, },
     name: "ipClassOfService",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -60,7 +60,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 6U },
+    identity: { enterprise_number: 0U, element_id: 6U, },
     name: "tcpControlBits",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("flags"),
@@ -69,7 +69,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 7U },
+    identity: { enterprise_number: 0U, element_id: 7U, },
     name: "sourceTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -78,7 +78,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 8U },
+    identity: { enterprise_number: 0U, element_id: 8U, },
     name: "sourceIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -87,7 +87,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 9U },
+    identity: { enterprise_number: 0U, element_id: 9U, },
     name: "sourceIPv4PrefixLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -96,7 +96,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 10U },
+    identity: { enterprise_number: 0U, element_id: 10U, },
     name: "ingressInterface",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -105,7 +105,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 11U },
+    identity: { enterprise_number: 0U, element_id: 11U, },
     name: "destinationTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -114,7 +114,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 12U },
+    identity: { enterprise_number: 0U, element_id: 12U, },
     name: "destinationIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -123,7 +123,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 13U },
+    identity: { enterprise_number: 0U, element_id: 13U, },
     name: "destinationIPv4PrefixLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -132,7 +132,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 14U },
+    identity: { enterprise_number: 0U, element_id: 14U, },
     name: "egressInterface",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -141,7 +141,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 15U },
+    identity: { enterprise_number: 0U, element_id: 15U, },
     name: "ipNextHopIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -150,7 +150,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 16U },
+    identity: { enterprise_number: 0U, element_id: 16U, },
     name: "bgpSourceAsNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -159,7 +159,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 17U },
+    identity: { enterprise_number: 0U, element_id: 17U, },
     name: "bgpDestinationAsNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -168,7 +168,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 18U },
+    identity: { enterprise_number: 0U, element_id: 18U, },
     name: "bgpNextHopIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -177,7 +177,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 19U },
+    identity: { enterprise_number: 0U, element_id: 19U, },
     name: "postMCastPacketDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -186,7 +186,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 20U },
+    identity: { enterprise_number: 0U, element_id: 20U, },
     name: "postMCastOctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -195,7 +195,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 21U },
+    identity: { enterprise_number: 0U, element_id: 21U, },
     name: "flowEndSysUpTime",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -204,7 +204,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 22U },
+    identity: { enterprise_number: 0U, element_id: 22U, },
     name: "flowStartSysUpTime",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -213,7 +213,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 23U },
+    identity: { enterprise_number: 0U, element_id: 23U, },
     name: "postOctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -222,7 +222,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 24U },
+    identity: { enterprise_number: 0U, element_id: 24U, },
     name: "postPacketDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -231,7 +231,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 25U },
+    identity: { enterprise_number: 0U, element_id: 25U, },
     name: "minimumIpTotalLength",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -240,7 +240,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 26U },
+    identity: { enterprise_number: 0U, element_id: 26U, },
     name: "maximumIpTotalLength",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -249,7 +249,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 27U },
+    identity: { enterprise_number: 0U, element_id: 27U, },
     name: "sourceIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -258,7 +258,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 28U },
+    identity: { enterprise_number: 0U, element_id: 28U, },
     name: "destinationIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -267,7 +267,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 29U },
+    identity: { enterprise_number: 0U, element_id: 29U, },
     name: "sourceIPv6PrefixLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -276,7 +276,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 30U },
+    identity: { enterprise_number: 0U, element_id: 30U, },
     name: "destinationIPv6PrefixLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -285,7 +285,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 31U },
+    identity: { enterprise_number: 0U, element_id: 31U, },
     name: "flowLabelIPv6",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -294,7 +294,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 32U },
+    identity: { enterprise_number: 0U, element_id: 32U, },
     name: "icmpTypeCodeIPv4",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -303,7 +303,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 33U },
+    identity: { enterprise_number: 0U, element_id: 33U, },
     name: "igmpType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -312,7 +312,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 34U },
+    identity: { enterprise_number: 0U, element_id: 34U, },
     name: "samplingInterval",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -321,7 +321,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 35U },
+    identity: { enterprise_number: 0U, element_id: 35U, },
     name: "samplingAlgorithm",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -330,7 +330,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 36U },
+    identity: { enterprise_number: 0U, element_id: 36U, },
     name: "flowActiveTimeout",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -339,7 +339,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 37U },
+    identity: { enterprise_number: 0U, element_id: 37U, },
     name: "flowIdleTimeout",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -348,7 +348,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 38U },
+    identity: { enterprise_number: 0U, element_id: 38U, },
     name: "engineType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -357,7 +357,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 39U },
+    identity: { enterprise_number: 0U, element_id: 39U, },
     name: "engineId",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -366,7 +366,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 40U },
+    identity: { enterprise_number: 0U, element_id: 40U, },
     name: "exportedOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -375,7 +375,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 41U },
+    identity: { enterprise_number: 0U, element_id: 41U, },
     name: "exportedMessageTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -384,7 +384,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 42U },
+    identity: { enterprise_number: 0U, element_id: 42U, },
     name: "exportedFlowRecordTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -393,7 +393,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 43U },
+    identity: { enterprise_number: 0U, element_id: 43U, },
     name: "ipv4RouterSc",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -402,7 +402,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 44U },
+    identity: { enterprise_number: 0U, element_id: 44U, },
     name: "sourceIPv4Prefix",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -411,7 +411,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 45U },
+    identity: { enterprise_number: 0U, element_id: 45U, },
     name: "destinationIPv4Prefix",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -420,7 +420,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 46U },
+    identity: { enterprise_number: 0U, element_id: 46U, },
     name: "mplsTopLabelType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -429,7 +429,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 47U },
+    identity: { enterprise_number: 0U, element_id: 47U, },
     name: "mplsTopLabelIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -438,7 +438,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 48U },
+    identity: { enterprise_number: 0U, element_id: 48U, },
     name: "samplerId",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -447,7 +447,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 49U },
+    identity: { enterprise_number: 0U, element_id: 49U, },
     name: "samplerMode",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -456,7 +456,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 50U },
+    identity: { enterprise_number: 0U, element_id: 50U, },
     name: "samplerRandomInterval",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -465,7 +465,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 51U },
+    identity: { enterprise_number: 0U, element_id: 51U, },
     name: "classId",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -474,7 +474,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 52U },
+    identity: { enterprise_number: 0U, element_id: 52U, },
     name: "minimumTTL",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -483,7 +483,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 53U },
+    identity: { enterprise_number: 0U, element_id: 53U, },
     name: "maximumTTL",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -492,7 +492,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 54U },
+    identity: { enterprise_number: 0U, element_id: 54U, },
     name: "fragmentIdentification",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -501,7 +501,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 55U },
+    identity: { enterprise_number: 0U, element_id: 55U, },
     name: "postIpClassOfService",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -510,7 +510,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 56U },
+    identity: { enterprise_number: 0U, element_id: 56U, },
     name: "sourceMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -519,7 +519,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 57U },
+    identity: { enterprise_number: 0U, element_id: 57U, },
     name: "postDestinationMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -528,7 +528,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 58U },
+    identity: { enterprise_number: 0U, element_id: 58U, },
     name: "vlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -537,7 +537,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 59U },
+    identity: { enterprise_number: 0U, element_id: 59U, },
     name: "postVlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -546,7 +546,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 60U },
+    identity: { enterprise_number: 0U, element_id: 60U, },
     name: "ipVersion",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -555,7 +555,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 61U },
+    identity: { enterprise_number: 0U, element_id: 61U, },
     name: "flowDirection",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -564,7 +564,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 62U },
+    identity: { enterprise_number: 0U, element_id: 62U, },
     name: "ipNextHopIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -573,7 +573,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 63U },
+    identity: { enterprise_number: 0U, element_id: 63U, },
     name: "bgpNextHopIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -582,7 +582,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 64U },
+    identity: { enterprise_number: 0U, element_id: 64U, },
     name: "ipv6ExtensionHeaders",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("flags"),
@@ -591,7 +591,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 70U },
+    identity: { enterprise_number: 0U, element_id: 70U, },
     name: "mplsTopLabelStackSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -600,7 +600,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 71U },
+    identity: { enterprise_number: 0U, element_id: 71U, },
     name: "mplsLabelStackSection2",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -609,7 +609,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 72U },
+    identity: { enterprise_number: 0U, element_id: 72U, },
     name: "mplsLabelStackSection3",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -618,7 +618,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 73U },
+    identity: { enterprise_number: 0U, element_id: 73U, },
     name: "mplsLabelStackSection4",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -627,7 +627,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 74U },
+    identity: { enterprise_number: 0U, element_id: 74U, },
     name: "mplsLabelStackSection5",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -636,7 +636,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 75U },
+    identity: { enterprise_number: 0U, element_id: 75U, },
     name: "mplsLabelStackSection6",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -645,7 +645,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 76U },
+    identity: { enterprise_number: 0U, element_id: 76U, },
     name: "mplsLabelStackSection7",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -654,7 +654,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 77U },
+    identity: { enterprise_number: 0U, element_id: 77U, },
     name: "mplsLabelStackSection8",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -663,7 +663,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 78U },
+    identity: { enterprise_number: 0U, element_id: 78U, },
     name: "mplsLabelStackSection9",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -672,7 +672,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 79U },
+    identity: { enterprise_number: 0U, element_id: 79U, },
     name: "mplsLabelStackSection10",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -681,7 +681,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 80U },
+    identity: { enterprise_number: 0U, element_id: 80U, },
     name: "destinationMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -690,7 +690,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 81U },
+    identity: { enterprise_number: 0U, element_id: 81U, },
     name: "postSourceMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -699,7 +699,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 82U },
+    identity: { enterprise_number: 0U, element_id: 82U, },
     name: "interfaceName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -708,7 +708,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 83U },
+    identity: { enterprise_number: 0U, element_id: 83U, },
     name: "interfaceDescription",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -717,7 +717,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 84U },
+    identity: { enterprise_number: 0U, element_id: 84U, },
     name: "samplerName",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -726,7 +726,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 85U },
+    identity: { enterprise_number: 0U, element_id: 85U, },
     name: "octetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -735,7 +735,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 86U },
+    identity: { enterprise_number: 0U, element_id: 86U, },
     name: "packetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -744,7 +744,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 87U },
+    identity: { enterprise_number: 0U, element_id: 87U, },
     name: "flagsAndSamplerId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -753,7 +753,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 88U },
+    identity: { enterprise_number: 0U, element_id: 88U, },
     name: "fragmentOffset",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -762,7 +762,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 89U },
+    identity: { enterprise_number: 0U, element_id: 89U, },
     name: "forwardingStatus",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -771,7 +771,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 90U },
+    identity: { enterprise_number: 0U, element_id: 90U, },
     name: "mplsVpnRouteDistinguisher",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -780,7 +780,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 91U },
+    identity: { enterprise_number: 0U, element_id: 91U, },
     name: "mplsTopLabelPrefixLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("quantity"),
@@ -789,7 +789,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 92U },
+    identity: { enterprise_number: 0U, element_id: 92U, },
     name: "srcTrafficIndex",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -798,7 +798,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 93U },
+    identity: { enterprise_number: 0U, element_id: 93U, },
     name: "dstTrafficIndex",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -807,7 +807,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 94U },
+    identity: { enterprise_number: 0U, element_id: 94U, },
     name: "applicationDescription",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -816,7 +816,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 95U },
+    identity: { enterprise_number: 0U, element_id: 95U, },
     name: "applicationId",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -825,7 +825,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 96U },
+    identity: { enterprise_number: 0U, element_id: 96U, },
     name: "applicationName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -834,7 +834,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 98U },
+    identity: { enterprise_number: 0U, element_id: 98U, },
     name: "postIpDiffServCodePoint",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -843,7 +843,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 99U },
+    identity: { enterprise_number: 0U, element_id: 99U, },
     name: "multicastReplicationFactor",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -852,7 +852,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 100U },
+    identity: { enterprise_number: 0U, element_id: 100U, },
     name: "className",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -861,7 +861,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 101U },
+    identity: { enterprise_number: 0U, element_id: 101U, },
     name: "classificationEngineId",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -870,7 +870,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 102U },
+    identity: { enterprise_number: 0U, element_id: 102U, },
     name: "layer2packetSectionOffset",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -879,7 +879,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 103U },
+    identity: { enterprise_number: 0U, element_id: 103U, },
     name: "layer2packetSectionSize",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -888,7 +888,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 104U },
+    identity: { enterprise_number: 0U, element_id: 104U, },
     name: "layer2packetSectionData",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: None,
@@ -897,7 +897,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 128U },
+    identity: { enterprise_number: 0U, element_id: 128U, },
     name: "bgpNextAdjacentAsNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -906,7 +906,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 129U },
+    identity: { enterprise_number: 0U, element_id: 129U, },
     name: "bgpPrevAdjacentAsNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -915,7 +915,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 130U },
+    identity: { enterprise_number: 0U, element_id: 130U, },
     name: "exporterIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -924,7 +924,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 131U },
+    identity: { enterprise_number: 0U, element_id: 131U, },
     name: "exporterIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -933,7 +933,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 132U },
+    identity: { enterprise_number: 0U, element_id: 132U, },
     name: "droppedOctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -942,7 +942,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 133U },
+    identity: { enterprise_number: 0U, element_id: 133U, },
     name: "droppedPacketDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -951,7 +951,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 134U },
+    identity: { enterprise_number: 0U, element_id: 134U, },
     name: "droppedOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -960,7 +960,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 135U },
+    identity: { enterprise_number: 0U, element_id: 135U, },
     name: "droppedPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -969,7 +969,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 136U },
+    identity: { enterprise_number: 0U, element_id: 136U, },
     name: "flowEndReason",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -978,7 +978,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 137U },
+    identity: { enterprise_number: 0U, element_id: 137U, },
     name: "commonPropertiesId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -987,7 +987,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 138U },
+    identity: { enterprise_number: 0U, element_id: 138U, },
     name: "observationPointId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -996,7 +996,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 139U },
+    identity: { enterprise_number: 0U, element_id: 139U, },
     name: "icmpTypeCodeIPv6",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1005,7 +1005,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 140U },
+    identity: { enterprise_number: 0U, element_id: 140U, },
     name: "mplsTopLabelIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -1014,7 +1014,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 141U },
+    identity: { enterprise_number: 0U, element_id: 141U, },
     name: "lineCardId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1023,7 +1023,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 142U },
+    identity: { enterprise_number: 0U, element_id: 142U, },
     name: "portId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1032,7 +1032,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 143U },
+    identity: { enterprise_number: 0U, element_id: 143U, },
     name: "meteringProcessId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1041,7 +1041,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 144U },
+    identity: { enterprise_number: 0U, element_id: 144U, },
     name: "exportingProcessId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1050,7 +1050,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 145U },
+    identity: { enterprise_number: 0U, element_id: 145U, },
     name: "templateId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1059,7 +1059,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 146U },
+    identity: { enterprise_number: 0U, element_id: 146U, },
     name: "wlanChannelId",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1068,7 +1068,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 147U },
+    identity: { enterprise_number: 0U, element_id: 147U, },
     name: "wlanSSID",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -1077,7 +1077,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 148U },
+    identity: { enterprise_number: 0U, element_id: 148U, },
     name: "flowId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -1086,7 +1086,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 149U },
+    identity: { enterprise_number: 0U, element_id: 149U, },
     name: "observationDomainId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1095,7 +1095,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 150U },
+    identity: { enterprise_number: 0U, element_id: 150U, },
     name: "flowStartSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -1104,7 +1104,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 151U },
+    identity: { enterprise_number: 0U, element_id: 151U, },
     name: "flowEndSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -1113,7 +1113,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 152U },
+    identity: { enterprise_number: 0U, element_id: 152U, },
     name: "flowStartMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -1122,7 +1122,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 153U },
+    identity: { enterprise_number: 0U, element_id: 153U, },
     name: "flowEndMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -1131,7 +1131,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 154U },
+    identity: { enterprise_number: 0U, element_id: 154U, },
     name: "flowStartMicroseconds",
     abstract_data_type: AbstractDataType::DateTimeMicroseconds,
     semantics: Some("default"),
@@ -1140,7 +1140,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 155U },
+    identity: { enterprise_number: 0U, element_id: 155U, },
     name: "flowEndMicroseconds",
     abstract_data_type: AbstractDataType::DateTimeMicroseconds,
     semantics: Some("default"),
@@ -1149,7 +1149,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 156U },
+    identity: { enterprise_number: 0U, element_id: 156U, },
     name: "flowStartNanoseconds",
     abstract_data_type: AbstractDataType::DateTimeNanoseconds,
     semantics: Some("default"),
@@ -1158,7 +1158,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 157U },
+    identity: { enterprise_number: 0U, element_id: 157U, },
     name: "flowEndNanoseconds",
     abstract_data_type: AbstractDataType::DateTimeNanoseconds,
     semantics: Some("default"),
@@ -1167,7 +1167,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 158U },
+    identity: { enterprise_number: 0U, element_id: 158U, },
     name: "flowStartDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1176,7 +1176,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 159U },
+    identity: { enterprise_number: 0U, element_id: 159U, },
     name: "flowEndDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1185,7 +1185,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 160U },
+    identity: { enterprise_number: 0U, element_id: 160U, },
     name: "systemInitTimeMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -1194,7 +1194,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 161U },
+    identity: { enterprise_number: 0U, element_id: 161U, },
     name: "flowDurationMilliseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1203,7 +1203,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 162U },
+    identity: { enterprise_number: 0U, element_id: 162U, },
     name: "flowDurationMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1212,7 +1212,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 163U },
+    identity: { enterprise_number: 0U, element_id: 163U, },
     name: "observedFlowTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1221,7 +1221,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 164U },
+    identity: { enterprise_number: 0U, element_id: 164U, },
     name: "ignoredPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1230,7 +1230,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 165U },
+    identity: { enterprise_number: 0U, element_id: 165U, },
     name: "ignoredOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1239,7 +1239,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 166U },
+    identity: { enterprise_number: 0U, element_id: 166U, },
     name: "notSentFlowTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1248,7 +1248,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 167U },
+    identity: { enterprise_number: 0U, element_id: 167U, },
     name: "notSentPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1257,7 +1257,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 168U },
+    identity: { enterprise_number: 0U, element_id: 168U, },
     name: "notSentOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1266,7 +1266,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 169U },
+    identity: { enterprise_number: 0U, element_id: 169U, },
     name: "destinationIPv6Prefix",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -1275,7 +1275,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 170U },
+    identity: { enterprise_number: 0U, element_id: 170U, },
     name: "sourceIPv6Prefix",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -1284,7 +1284,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 171U },
+    identity: { enterprise_number: 0U, element_id: 171U, },
     name: "postOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1293,7 +1293,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 172U },
+    identity: { enterprise_number: 0U, element_id: 172U, },
     name: "postPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1302,7 +1302,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 173U },
+    identity: { enterprise_number: 0U, element_id: 173U, },
     name: "flowKeyIndicator",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("flags"),
@@ -1311,7 +1311,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 174U },
+    identity: { enterprise_number: 0U, element_id: 174U, },
     name: "postMCastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1320,7 +1320,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 175U },
+    identity: { enterprise_number: 0U, element_id: 175U, },
     name: "postMCastOctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1329,7 +1329,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 176U },
+    identity: { enterprise_number: 0U, element_id: 176U, },
     name: "icmpTypeIPv4",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1338,7 +1338,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 177U },
+    identity: { enterprise_number: 0U, element_id: 177U, },
     name: "icmpCodeIPv4",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1347,7 +1347,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 178U },
+    identity: { enterprise_number: 0U, element_id: 178U, },
     name: "icmpTypeIPv6",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1356,7 +1356,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 179U },
+    identity: { enterprise_number: 0U, element_id: 179U, },
     name: "icmpCodeIPv6",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1365,7 +1365,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 180U },
+    identity: { enterprise_number: 0U, element_id: 180U, },
     name: "udpSourcePort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1374,7 +1374,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 181U },
+    identity: { enterprise_number: 0U, element_id: 181U, },
     name: "udpDestinationPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1383,7 +1383,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 182U },
+    identity: { enterprise_number: 0U, element_id: 182U, },
     name: "tcpSourcePort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1392,7 +1392,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 183U },
+    identity: { enterprise_number: 0U, element_id: 183U, },
     name: "tcpDestinationPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1401,7 +1401,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 184U },
+    identity: { enterprise_number: 0U, element_id: 184U, },
     name: "tcpSequenceNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1410,7 +1410,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 185U },
+    identity: { enterprise_number: 0U, element_id: 185U, },
     name: "tcpAcknowledgementNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1419,7 +1419,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 186U },
+    identity: { enterprise_number: 0U, element_id: 186U, },
     name: "tcpWindowSize",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1428,7 +1428,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 187U },
+    identity: { enterprise_number: 0U, element_id: 187U, },
     name: "tcpUrgentPointer",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1437,7 +1437,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 188U },
+    identity: { enterprise_number: 0U, element_id: 188U, },
     name: "tcpHeaderLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1446,7 +1446,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 189U },
+    identity: { enterprise_number: 0U, element_id: 189U, },
     name: "ipHeaderLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1455,7 +1455,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 190U },
+    identity: { enterprise_number: 0U, element_id: 190U, },
     name: "totalLengthIPv4",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1464,7 +1464,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 191U },
+    identity: { enterprise_number: 0U, element_id: 191U, },
     name: "payloadLengthIPv6",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1473,7 +1473,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 192U },
+    identity: { enterprise_number: 0U, element_id: 192U, },
     name: "ipTTL",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1482,7 +1482,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 193U },
+    identity: { enterprise_number: 0U, element_id: 193U, },
     name: "nextHeaderIPv6",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1491,7 +1491,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 194U },
+    identity: { enterprise_number: 0U, element_id: 194U, },
     name: "mplsPayloadLength",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1500,7 +1500,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 195U },
+    identity: { enterprise_number: 0U, element_id: 195U, },
     name: "ipDiffServCodePoint",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1509,7 +1509,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 196U },
+    identity: { enterprise_number: 0U, element_id: 196U, },
     name: "ipPrecedence",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1518,7 +1518,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 197U },
+    identity: { enterprise_number: 0U, element_id: 197U, },
     name: "fragmentFlags",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -1527,7 +1527,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 198U },
+    identity: { enterprise_number: 0U, element_id: 198U, },
     name: "octetDeltaSumOfSquares",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -1536,7 +1536,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 199U },
+    identity: { enterprise_number: 0U, element_id: 199U, },
     name: "octetTotalSumOfSquares",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -1545,7 +1545,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 200U },
+    identity: { enterprise_number: 0U, element_id: 200U, },
     name: "mplsTopLabelTTL",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1554,7 +1554,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 201U },
+    identity: { enterprise_number: 0U, element_id: 201U, },
     name: "mplsLabelStackLength",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1563,7 +1563,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 202U },
+    identity: { enterprise_number: 0U, element_id: 202U, },
     name: "mplsLabelStackDepth",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1572,7 +1572,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 203U },
+    identity: { enterprise_number: 0U, element_id: 203U, },
     name: "mplsTopLabelExp",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -1581,7 +1581,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 204U },
+    identity: { enterprise_number: 0U, element_id: 204U, },
     name: "ipPayloadLength",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1590,7 +1590,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 205U },
+    identity: { enterprise_number: 0U, element_id: 205U, },
     name: "udpMessageLength",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1599,7 +1599,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 206U },
+    identity: { enterprise_number: 0U, element_id: 206U, },
     name: "isMulticast",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -1608,7 +1608,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 207U },
+    identity: { enterprise_number: 0U, element_id: 207U, },
     name: "ipv4IHL",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1617,7 +1617,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 208U },
+    identity: { enterprise_number: 0U, element_id: 208U, },
     name: "ipv4Options",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("flags"),
@@ -1626,7 +1626,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 209U },
+    identity: { enterprise_number: 0U, element_id: 209U, },
     name: "tcpOptions",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("flags"),
@@ -1635,7 +1635,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 210U },
+    identity: { enterprise_number: 0U, element_id: 210U, },
     name: "paddingOctets",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -1644,7 +1644,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 211U },
+    identity: { enterprise_number: 0U, element_id: 211U, },
     name: "collectorIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -1653,7 +1653,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 212U },
+    identity: { enterprise_number: 0U, element_id: 212U, },
     name: "collectorIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -1662,7 +1662,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 213U },
+    identity: { enterprise_number: 0U, element_id: 213U, },
     name: "exportInterface",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1671,7 +1671,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 214U },
+    identity: { enterprise_number: 0U, element_id: 214U, },
     name: "exportProtocolVersion",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1680,7 +1680,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 215U },
+    identity: { enterprise_number: 0U, element_id: 215U, },
     name: "exportTransportProtocol",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1689,7 +1689,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 216U },
+    identity: { enterprise_number: 0U, element_id: 216U, },
     name: "collectorTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1698,7 +1698,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 217U },
+    identity: { enterprise_number: 0U, element_id: 217U, },
     name: "exporterTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1707,7 +1707,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 218U },
+    identity: { enterprise_number: 0U, element_id: 218U, },
     name: "tcpSynTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1716,7 +1716,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 219U },
+    identity: { enterprise_number: 0U, element_id: 219U, },
     name: "tcpFinTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1725,7 +1725,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 220U },
+    identity: { enterprise_number: 0U, element_id: 220U, },
     name: "tcpRstTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1734,7 +1734,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 221U },
+    identity: { enterprise_number: 0U, element_id: 221U, },
     name: "tcpPshTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1743,7 +1743,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 222U },
+    identity: { enterprise_number: 0U, element_id: 222U, },
     name: "tcpAckTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1752,7 +1752,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 223U },
+    identity: { enterprise_number: 0U, element_id: 223U, },
     name: "tcpUrgTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -1761,7 +1761,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 224U },
+    identity: { enterprise_number: 0U, element_id: 224U, },
     name: "ipTotalLength",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -1770,7 +1770,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 225U },
+    identity: { enterprise_number: 0U, element_id: 225U, },
     name: "postNATSourceIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -1779,7 +1779,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 226U },
+    identity: { enterprise_number: 0U, element_id: 226U, },
     name: "postNATDestinationIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -1788,7 +1788,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 227U },
+    identity: { enterprise_number: 0U, element_id: 227U, },
     name: "postNAPTSourceTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1797,7 +1797,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 228U },
+    identity: { enterprise_number: 0U, element_id: 228U, },
     name: "postNAPTDestinationTransportPort",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1806,7 +1806,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 229U },
+    identity: { enterprise_number: 0U, element_id: 229U, },
     name: "natOriginatingAddressRealm",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1815,7 +1815,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 230U },
+    identity: { enterprise_number: 0U, element_id: 230U, },
     name: "natEvent",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1824,7 +1824,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 231U },
+    identity: { enterprise_number: 0U, element_id: 231U, },
     name: "initiatorOctets",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -1833,7 +1833,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 232U },
+    identity: { enterprise_number: 0U, element_id: 232U, },
     name: "responderOctets",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -1842,7 +1842,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 233U },
+    identity: { enterprise_number: 0U, element_id: 233U, },
     name: "firewallEvent",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -1851,7 +1851,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 234U },
+    identity: { enterprise_number: 0U, element_id: 234U, },
     name: "ingressVRFID",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1860,7 +1860,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 235U },
+    identity: { enterprise_number: 0U, element_id: 235U, },
     name: "egressVRFID",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: None,
@@ -1869,7 +1869,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 236U },
+    identity: { enterprise_number: 0U, element_id: 236U, },
     name: "VRFname",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -1878,7 +1878,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 237U },
+    identity: { enterprise_number: 0U, element_id: 237U, },
     name: "postMplsTopLabelExp",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -1887,7 +1887,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 238U },
+    identity: { enterprise_number: 0U, element_id: 238U, },
     name: "tcpWindowScale",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -1896,7 +1896,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 239U },
+    identity: { enterprise_number: 0U, element_id: 239U, },
     name: "biflowDirection",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1905,7 +1905,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 240U },
+    identity: { enterprise_number: 0U, element_id: 240U, },
     name: "ethernetHeaderLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("quantity"),
@@ -1914,7 +1914,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 241U },
+    identity: { enterprise_number: 0U, element_id: 241U, },
     name: "ethernetPayloadLength",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -1923,7 +1923,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 242U },
+    identity: { enterprise_number: 0U, element_id: 242U, },
     name: "ethernetTotalLength",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -1932,7 +1932,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 243U },
+    identity: { enterprise_number: 0U, element_id: 243U, },
     name: "dot1qVlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1941,7 +1941,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 244U },
+    identity: { enterprise_number: 0U, element_id: 244U, },
     name: "dot1qPriority",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1950,7 +1950,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 245U },
+    identity: { enterprise_number: 0U, element_id: 245U, },
     name: "dot1qCustomerVlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -1959,7 +1959,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 246U },
+    identity: { enterprise_number: 0U, element_id: 246U, },
     name: "dot1qCustomerPriority",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1968,7 +1968,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 247U },
+    identity: { enterprise_number: 0U, element_id: 247U, },
     name: "metroEvcId",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -1977,7 +1977,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 248U },
+    identity: { enterprise_number: 0U, element_id: 248U, },
     name: "metroEvcType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -1986,7 +1986,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 249U },
+    identity: { enterprise_number: 0U, element_id: 249U, },
     name: "pseudoWireId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -1995,7 +1995,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 250U },
+    identity: { enterprise_number: 0U, element_id: 250U, },
     name: "pseudoWireType",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2004,7 +2004,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 251U },
+    identity: { enterprise_number: 0U, element_id: 251U, },
     name: "pseudoWireControlWord",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2013,7 +2013,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 252U },
+    identity: { enterprise_number: 0U, element_id: 252U, },
     name: "ingressPhysicalInterface",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2022,7 +2022,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 253U },
+    identity: { enterprise_number: 0U, element_id: 253U, },
     name: "egressPhysicalInterface",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2031,7 +2031,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 254U },
+    identity: { enterprise_number: 0U, element_id: 254U, },
     name: "postDot1qVlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2040,7 +2040,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 255U },
+    identity: { enterprise_number: 0U, element_id: 255U, },
     name: "postDot1qCustomerVlanId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2049,7 +2049,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 256U },
+    identity: { enterprise_number: 0U, element_id: 256U, },
     name: "ethernetType",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2058,7 +2058,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 257U },
+    identity: { enterprise_number: 0U, element_id: 257U, },
     name: "postIpPrecedence",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -2067,7 +2067,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 258U },
+    identity: { enterprise_number: 0U, element_id: 258U, },
     name: "collectionTimeMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2076,7 +2076,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 259U },
+    identity: { enterprise_number: 0U, element_id: 259U, },
     name: "exportSctpStreamId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2085,7 +2085,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 260U },
+    identity: { enterprise_number: 0U, element_id: 260U, },
     name: "maxExportSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -2094,7 +2094,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 261U },
+    identity: { enterprise_number: 0U, element_id: 261U, },
     name: "maxFlowEndSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -2103,7 +2103,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 262U },
+    identity: { enterprise_number: 0U, element_id: 262U, },
     name: "messageMD5Checksum",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2112,7 +2112,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 263U },
+    identity: { enterprise_number: 0U, element_id: 263U, },
     name: "messageScope",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -2121,7 +2121,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 264U },
+    identity: { enterprise_number: 0U, element_id: 264U, },
     name: "minExportSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -2130,7 +2130,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 265U },
+    identity: { enterprise_number: 0U, element_id: 265U, },
     name: "minFlowStartSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -2139,7 +2139,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 266U },
+    identity: { enterprise_number: 0U, element_id: 266U, },
     name: "opaqueOctets",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2148,7 +2148,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 267U },
+    identity: { enterprise_number: 0U, element_id: 267U, },
     name: "sessionScope",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -2157,7 +2157,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 268U },
+    identity: { enterprise_number: 0U, element_id: 268U, },
     name: "maxFlowEndMicroseconds",
     abstract_data_type: AbstractDataType::DateTimeMicroseconds,
     semantics: Some("default"),
@@ -2166,7 +2166,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 269U },
+    identity: { enterprise_number: 0U, element_id: 269U, },
     name: "maxFlowEndMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2175,7 +2175,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 270U },
+    identity: { enterprise_number: 0U, element_id: 270U, },
     name: "maxFlowEndNanoseconds",
     abstract_data_type: AbstractDataType::DateTimeNanoseconds,
     semantics: Some("default"),
@@ -2184,7 +2184,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 271U },
+    identity: { enterprise_number: 0U, element_id: 271U, },
     name: "minFlowStartMicroseconds",
     abstract_data_type: AbstractDataType::DateTimeMicroseconds,
     semantics: Some("default"),
@@ -2193,7 +2193,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 272U },
+    identity: { enterprise_number: 0U, element_id: 272U, },
     name: "minFlowStartMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2202,7 +2202,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 273U },
+    identity: { enterprise_number: 0U, element_id: 273U, },
     name: "minFlowStartNanoseconds",
     abstract_data_type: AbstractDataType::DateTimeNanoseconds,
     semantics: Some("default"),
@@ -2211,7 +2211,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 274U },
+    identity: { enterprise_number: 0U, element_id: 274U, },
     name: "collectorCertificate",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2220,7 +2220,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 275U },
+    identity: { enterprise_number: 0U, element_id: 275U, },
     name: "exporterCertificate",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2229,7 +2229,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 276U },
+    identity: { enterprise_number: 0U, element_id: 276U, },
     name: "dataRecordsReliability",
     abstract_data_type: AbstractDataType::Boolean,
     semantics: Some("default"),
@@ -2238,7 +2238,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 277U },
+    identity: { enterprise_number: 0U, element_id: 277U, },
     name: "observationPointType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -2247,7 +2247,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 278U },
+    identity: { enterprise_number: 0U, element_id: 278U, },
     name: "newConnectionDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("deltaCounter"),
@@ -2256,7 +2256,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 279U },
+    identity: { enterprise_number: 0U, element_id: 279U, },
     name: "connectionSumDurationSeconds",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -2265,7 +2265,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 280U },
+    identity: { enterprise_number: 0U, element_id: 280U, },
     name: "connectionTransactionId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -2274,7 +2274,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 281U },
+    identity: { enterprise_number: 0U, element_id: 281U, },
     name: "postNATSourceIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -2283,7 +2283,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 282U },
+    identity: { enterprise_number: 0U, element_id: 282U, },
     name: "postNATDestinationIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -2292,7 +2292,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 283U },
+    identity: { enterprise_number: 0U, element_id: 283U, },
     name: "natPoolId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2301,7 +2301,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 284U },
+    identity: { enterprise_number: 0U, element_id: 284U, },
     name: "natPoolName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2310,7 +2310,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 285U },
+    identity: { enterprise_number: 0U, element_id: 285U, },
     name: "anonymizationFlags",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("flags"),
@@ -2319,7 +2319,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 286U },
+    identity: { enterprise_number: 0U, element_id: 286U, },
     name: "anonymizationTechnique",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2328,7 +2328,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 287U },
+    identity: { enterprise_number: 0U, element_id: 287U, },
     name: "informationElementIndex",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2337,7 +2337,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 288U },
+    identity: { enterprise_number: 0U, element_id: 288U, },
     name: "p2pTechnology",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2346,7 +2346,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 289U },
+    identity: { enterprise_number: 0U, element_id: 289U, },
     name: "tunnelTechnology",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2355,7 +2355,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 290U },
+    identity: { enterprise_number: 0U, element_id: 290U, },
     name: "encryptedTechnology",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2364,7 +2364,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 291U },
+    identity: { enterprise_number: 0U, element_id: 291U, },
     name: "basicList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -2373,7 +2373,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 292U },
+    identity: { enterprise_number: 0U, element_id: 292U, },
     name: "subTemplateList",
     abstract_data_type: AbstractDataType::SubTemplateList,
     semantics: Some("list"),
@@ -2382,7 +2382,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 293U },
+    identity: { enterprise_number: 0U, element_id: 293U, },
     name: "subTemplateMultiList",
     abstract_data_type: AbstractDataType::SubTemplateMultiList,
     semantics: Some("list"),
@@ -2391,7 +2391,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 294U },
+    identity: { enterprise_number: 0U, element_id: 294U, },
     name: "bgpValidityState",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -2400,7 +2400,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 295U },
+    identity: { enterprise_number: 0U, element_id: 295U, },
     name: "IPSecSPI",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2409,7 +2409,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 296U },
+    identity: { enterprise_number: 0U, element_id: 296U, },
     name: "greKey",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2418,7 +2418,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 297U },
+    identity: { enterprise_number: 0U, element_id: 297U, },
     name: "natType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -2427,7 +2427,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 298U },
+    identity: { enterprise_number: 0U, element_id: 298U, },
     name: "initiatorPackets",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -2436,7 +2436,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 299U },
+    identity: { enterprise_number: 0U, element_id: 299U, },
     name: "responderPackets",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -2445,7 +2445,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 300U },
+    identity: { enterprise_number: 0U, element_id: 300U, },
     name: "observationDomainName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2454,7 +2454,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 301U },
+    identity: { enterprise_number: 0U, element_id: 301U, },
     name: "selectionSequenceId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -2463,7 +2463,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 302U },
+    identity: { enterprise_number: 0U, element_id: 302U, },
     name: "selectorId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -2472,7 +2472,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 303U },
+    identity: { enterprise_number: 0U, element_id: 303U, },
     name: "informationElementId",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2481,7 +2481,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 304U },
+    identity: { enterprise_number: 0U, element_id: 304U, },
     name: "selectorAlgorithm",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -2490,7 +2490,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 305U },
+    identity: { enterprise_number: 0U, element_id: 305U, },
     name: "samplingPacketInterval",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2499,7 +2499,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 306U },
+    identity: { enterprise_number: 0U, element_id: 306U, },
     name: "samplingPacketSpace",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2508,7 +2508,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 307U },
+    identity: { enterprise_number: 0U, element_id: 307U, },
     name: "samplingTimeInterval",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2517,7 +2517,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 308U },
+    identity: { enterprise_number: 0U, element_id: 308U, },
     name: "samplingTimeSpace",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2526,7 +2526,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 309U },
+    identity: { enterprise_number: 0U, element_id: 309U, },
     name: "samplingSize",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2535,7 +2535,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 310U },
+    identity: { enterprise_number: 0U, element_id: 310U, },
     name: "samplingPopulation",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -2544,7 +2544,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 311U },
+    identity: { enterprise_number: 0U, element_id: 311U, },
     name: "samplingProbability",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2553,7 +2553,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 312U },
+    identity: { enterprise_number: 0U, element_id: 312U, },
     name: "dataLinkFrameSize",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -2562,7 +2562,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 313U },
+    identity: { enterprise_number: 0U, element_id: 313U, },
     name: "ipHeaderPacketSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2571,7 +2571,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 314U },
+    identity: { enterprise_number: 0U, element_id: 314U, },
     name: "ipPayloadPacketSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2580,7 +2580,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 315U },
+    identity: { enterprise_number: 0U, element_id: 315U, },
     name: "dataLinkFrameSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2589,7 +2589,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 316U },
+    identity: { enterprise_number: 0U, element_id: 316U, },
     name: "mplsLabelStackSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2598,7 +2598,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 317U },
+    identity: { enterprise_number: 0U, element_id: 317U, },
     name: "mplsPayloadPacketSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2607,7 +2607,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 318U },
+    identity: { enterprise_number: 0U, element_id: 318U, },
     name: "selectorIdTotalPktsObserved",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2616,7 +2616,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 319U },
+    identity: { enterprise_number: 0U, element_id: 319U, },
     name: "selectorIdTotalPktsSelected",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2625,7 +2625,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 320U },
+    identity: { enterprise_number: 0U, element_id: 320U, },
     name: "absoluteError",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2634,7 +2634,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 321U },
+    identity: { enterprise_number: 0U, element_id: 321U, },
     name: "relativeError",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2643,7 +2643,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 322U },
+    identity: { enterprise_number: 0U, element_id: 322U, },
     name: "observationTimeSeconds",
     abstract_data_type: AbstractDataType::DateTimeSeconds,
     semantics: Some("default"),
@@ -2652,7 +2652,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 323U },
+    identity: { enterprise_number: 0U, element_id: 323U, },
     name: "observationTimeMilliseconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2661,7 +2661,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 324U },
+    identity: { enterprise_number: 0U, element_id: 324U, },
     name: "observationTimeMicroseconds",
     abstract_data_type: AbstractDataType::DateTimeMicroseconds,
     semantics: Some("default"),
@@ -2670,7 +2670,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 325U },
+    identity: { enterprise_number: 0U, element_id: 325U, },
     name: "observationTimeNanoseconds",
     abstract_data_type: AbstractDataType::DateTimeNanoseconds,
     semantics: Some("default"),
@@ -2679,7 +2679,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 326U },
+    identity: { enterprise_number: 0U, element_id: 326U, },
     name: "digestHashValue",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2688,7 +2688,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 327U },
+    identity: { enterprise_number: 0U, element_id: 327U, },
     name: "hashIPPayloadOffset",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2697,7 +2697,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 328U },
+    identity: { enterprise_number: 0U, element_id: 328U, },
     name: "hashIPPayloadSize",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2706,7 +2706,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 329U },
+    identity: { enterprise_number: 0U, element_id: 329U, },
     name: "hashOutputRangeMin",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2715,7 +2715,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 330U },
+    identity: { enterprise_number: 0U, element_id: 330U, },
     name: "hashOutputRangeMax",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2724,7 +2724,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 331U },
+    identity: { enterprise_number: 0U, element_id: 331U, },
     name: "hashSelectedRangeMin",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2733,7 +2733,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 332U },
+    identity: { enterprise_number: 0U, element_id: 332U, },
     name: "hashSelectedRangeMax",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2742,7 +2742,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 333U },
+    identity: { enterprise_number: 0U, element_id: 333U, },
     name: "hashDigestOutput",
     abstract_data_type: AbstractDataType::Boolean,
     semantics: Some("default"),
@@ -2751,7 +2751,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 334U },
+    identity: { enterprise_number: 0U, element_id: 334U, },
     name: "hashInitialiserValue",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2760,7 +2760,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 335U },
+    identity: { enterprise_number: 0U, element_id: 335U, },
     name: "selectorName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2769,7 +2769,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 336U },
+    identity: { enterprise_number: 0U, element_id: 336U, },
     name: "upperCILimit",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2778,7 +2778,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 337U },
+    identity: { enterprise_number: 0U, element_id: 337U, },
     name: "lowerCILimit",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2787,7 +2787,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 338U },
+    identity: { enterprise_number: 0U, element_id: 338U, },
     name: "confidenceLevel",
     abstract_data_type: AbstractDataType::Float64,
     semantics: Some("quantity"),
@@ -2796,7 +2796,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 339U },
+    identity: { enterprise_number: 0U, element_id: 339U, },
     name: "informationElementDataType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -2805,7 +2805,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 340U },
+    identity: { enterprise_number: 0U, element_id: 340U, },
     name: "informationElementDescription",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2814,7 +2814,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 341U },
+    identity: { enterprise_number: 0U, element_id: 341U, },
     name: "informationElementName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2823,7 +2823,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 342U },
+    identity: { enterprise_number: 0U, element_id: 342U, },
     name: "informationElementRangeBegin",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2832,7 +2832,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 343U },
+    identity: { enterprise_number: 0U, element_id: 343U, },
     name: "informationElementRangeEnd",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("quantity"),
@@ -2841,7 +2841,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 344U },
+    identity: { enterprise_number: 0U, element_id: 344U, },
     name: "informationElementSemantics",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -2850,7 +2850,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 345U },
+    identity: { enterprise_number: 0U, element_id: 345U, },
     name: "informationElementUnits",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -2859,7 +2859,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 346U },
+    identity: { enterprise_number: 0U, element_id: 346U, },
     name: "privateEnterpriseNumber",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -2868,7 +2868,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 347U },
+    identity: { enterprise_number: 0U, element_id: 347U, },
     name: "virtualStationInterfaceId",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2877,7 +2877,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 348U },
+    identity: { enterprise_number: 0U, element_id: 348U, },
     name: "virtualStationInterfaceName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2886,7 +2886,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 349U },
+    identity: { enterprise_number: 0U, element_id: 349U, },
     name: "virtualStationUUID",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -2895,7 +2895,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 350U },
+    identity: { enterprise_number: 0U, element_id: 350U, },
     name: "virtualStationName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -2904,7 +2904,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 351U },
+    identity: { enterprise_number: 0U, element_id: 351U, },
     name: "layer2SegmentId",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("identifier"),
@@ -2913,7 +2913,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 352U },
+    identity: { enterprise_number: 0U, element_id: 352U, },
     name: "layer2OctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -2922,7 +2922,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 353U },
+    identity: { enterprise_number: 0U, element_id: 353U, },
     name: "layer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2931,7 +2931,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 354U },
+    identity: { enterprise_number: 0U, element_id: 354U, },
     name: "ingressUnicastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2940,7 +2940,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 355U },
+    identity: { enterprise_number: 0U, element_id: 355U, },
     name: "ingressMulticastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2949,7 +2949,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 356U },
+    identity: { enterprise_number: 0U, element_id: 356U, },
     name: "ingressBroadcastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2958,7 +2958,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 357U },
+    identity: { enterprise_number: 0U, element_id: 357U, },
     name: "egressUnicastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2967,7 +2967,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 358U },
+    identity: { enterprise_number: 0U, element_id: 358U, },
     name: "egressBroadcastPacketTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -2976,7 +2976,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 359U },
+    identity: { enterprise_number: 0U, element_id: 359U, },
     name: "monitoringIntervalStartMilliSeconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2985,7 +2985,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 360U },
+    identity: { enterprise_number: 0U, element_id: 360U, },
     name: "monitoringIntervalEndMilliSeconds",
     abstract_data_type: AbstractDataType::DateTimeMilliseconds,
     semantics: Some("default"),
@@ -2994,7 +2994,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 361U },
+    identity: { enterprise_number: 0U, element_id: 361U, },
     name: "portRangeStart",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3003,7 +3003,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 362U },
+    identity: { enterprise_number: 0U, element_id: 362U, },
     name: "portRangeEnd",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3012,7 +3012,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 363U },
+    identity: { enterprise_number: 0U, element_id: 363U, },
     name: "portRangeStepSize",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3021,7 +3021,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 364U },
+    identity: { enterprise_number: 0U, element_id: 364U, },
     name: "portRangeNumPorts",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3030,7 +3030,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 365U },
+    identity: { enterprise_number: 0U, element_id: 365U, },
     name: "staMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -3039,7 +3039,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 366U },
+    identity: { enterprise_number: 0U, element_id: 366U, },
     name: "staIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -3048,7 +3048,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 367U },
+    identity: { enterprise_number: 0U, element_id: 367U, },
     name: "wtpMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -3057,7 +3057,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 368U },
+    identity: { enterprise_number: 0U, element_id: 368U, },
     name: "ingressInterfaceType",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3066,7 +3066,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 369U },
+    identity: { enterprise_number: 0U, element_id: 369U, },
     name: "egressInterfaceType",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3075,7 +3075,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 370U },
+    identity: { enterprise_number: 0U, element_id: 370U, },
     name: "rtpSequenceNumber",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: None,
@@ -3084,7 +3084,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 371U },
+    identity: { enterprise_number: 0U, element_id: 371U, },
     name: "userName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3093,7 +3093,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 372U },
+    identity: { enterprise_number: 0U, element_id: 372U, },
     name: "applicationCategoryName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3102,7 +3102,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 373U },
+    identity: { enterprise_number: 0U, element_id: 373U, },
     name: "applicationSubCategoryName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3111,7 +3111,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 374U },
+    identity: { enterprise_number: 0U, element_id: 374U, },
     name: "applicationGroupName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3120,7 +3120,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 375U },
+    identity: { enterprise_number: 0U, element_id: 375U, },
     name: "originalFlowsPresent",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3129,7 +3129,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 376U },
+    identity: { enterprise_number: 0U, element_id: 376U, },
     name: "originalFlowsInitiated",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3138,7 +3138,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 377U },
+    identity: { enterprise_number: 0U, element_id: 377U, },
     name: "originalFlowsCompleted",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3147,7 +3147,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 378U },
+    identity: { enterprise_number: 0U, element_id: 378U, },
     name: "distinctCountOfSourceIPAddress",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3156,7 +3156,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 379U },
+    identity: { enterprise_number: 0U, element_id: 379U, },
     name: "distinctCountOfDestinationIPAddress",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3165,7 +3165,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 380U },
+    identity: { enterprise_number: 0U, element_id: 380U, },
     name: "distinctCountOfSourceIPv4Address",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("totalCounter"),
@@ -3174,7 +3174,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 381U },
+    identity: { enterprise_number: 0U, element_id: 381U, },
     name: "distinctCountOfDestinationIPv4Address",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("totalCounter"),
@@ -3183,7 +3183,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 382U },
+    identity: { enterprise_number: 0U, element_id: 382U, },
     name: "distinctCountOfSourceIPv6Address",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3192,7 +3192,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 383U },
+    identity: { enterprise_number: 0U, element_id: 383U, },
     name: "distinctCountOfDestinationIPv6Address",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3201,7 +3201,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 384U },
+    identity: { enterprise_number: 0U, element_id: 384U, },
     name: "valueDistributionMethod",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: None,
@@ -3210,7 +3210,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 385U },
+    identity: { enterprise_number: 0U, element_id: 385U, },
     name: "rfc3550JitterMilliseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -3219,7 +3219,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 386U },
+    identity: { enterprise_number: 0U, element_id: 386U, },
     name: "rfc3550JitterMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -3228,7 +3228,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 387U },
+    identity: { enterprise_number: 0U, element_id: 387U, },
     name: "rfc3550JitterNanoseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -3237,7 +3237,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 388U },
+    identity: { enterprise_number: 0U, element_id: 388U, },
     name: "dot1qDEI",
     abstract_data_type: AbstractDataType::Boolean,
     semantics: Some("default"),
@@ -3246,7 +3246,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 389U },
+    identity: { enterprise_number: 0U, element_id: 389U, },
     name: "dot1qCustomerDEI",
     abstract_data_type: AbstractDataType::Boolean,
     semantics: Some("default"),
@@ -3255,7 +3255,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 390U },
+    identity: { enterprise_number: 0U, element_id: 390U, },
     name: "flowSelectorAlgorithm",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3264,7 +3264,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 391U },
+    identity: { enterprise_number: 0U, element_id: 391U, },
     name: "flowSelectedOctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3273,7 +3273,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 392U },
+    identity: { enterprise_number: 0U, element_id: 392U, },
     name: "flowSelectedPacketDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3282,7 +3282,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 393U },
+    identity: { enterprise_number: 0U, element_id: 393U, },
     name: "flowSelectedFlowDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3291,7 +3291,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 394U },
+    identity: { enterprise_number: 0U, element_id: 394U, },
     name: "selectorIDTotalFlowsObserved",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3300,7 +3300,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 395U },
+    identity: { enterprise_number: 0U, element_id: 395U, },
     name: "selectorIDTotalFlowsSelected",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3309,7 +3309,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 396U },
+    identity: { enterprise_number: 0U, element_id: 396U, },
     name: "samplingFlowInterval",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3318,7 +3318,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 397U },
+    identity: { enterprise_number: 0U, element_id: 397U, },
     name: "samplingFlowSpacing",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3327,7 +3327,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 398U },
+    identity: { enterprise_number: 0U, element_id: 398U, },
     name: "flowSamplingTimeInterval",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3336,7 +3336,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 399U },
+    identity: { enterprise_number: 0U, element_id: 399U, },
     name: "flowSamplingTimeSpacing",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3345,7 +3345,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 400U },
+    identity: { enterprise_number: 0U, element_id: 400U, },
     name: "hashFlowDomain",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3354,7 +3354,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 401U },
+    identity: { enterprise_number: 0U, element_id: 401U, },
     name: "transportOctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3363,7 +3363,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 402U },
+    identity: { enterprise_number: 0U, element_id: 402U, },
     name: "transportPacketDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3372,7 +3372,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 403U },
+    identity: { enterprise_number: 0U, element_id: 403U, },
     name: "originalExporterIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: None,
@@ -3381,7 +3381,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 404U },
+    identity: { enterprise_number: 0U, element_id: 404U, },
     name: "originalExporterIPv6Address",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: None,
@@ -3390,7 +3390,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 405U },
+    identity: { enterprise_number: 0U, element_id: 405U, },
     name: "originalObservationDomainId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3399,7 +3399,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 406U },
+    identity: { enterprise_number: 0U, element_id: 406U, },
     name: "intermediateProcessId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3408,7 +3408,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 407U },
+    identity: { enterprise_number: 0U, element_id: 407U, },
     name: "ignoredDataRecordTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3417,7 +3417,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 408U },
+    identity: { enterprise_number: 0U, element_id: 408U, },
     name: "dataLinkFrameType",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("flags"),
@@ -3426,7 +3426,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 409U },
+    identity: { enterprise_number: 0U, element_id: 409U, },
     name: "sectionOffset",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -3435,7 +3435,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 410U },
+    identity: { enterprise_number: 0U, element_id: 410U, },
     name: "sectionExportedOctets",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -3444,7 +3444,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 411U },
+    identity: { enterprise_number: 0U, element_id: 411U, },
     name: "dot1qServiceInstanceTag",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -3453,7 +3453,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 412U },
+    identity: { enterprise_number: 0U, element_id: 412U, },
     name: "dot1qServiceInstanceId",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3462,7 +3462,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 413U },
+    identity: { enterprise_number: 0U, element_id: 413U, },
     name: "dot1qServiceInstancePriority",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -3471,7 +3471,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 414U },
+    identity: { enterprise_number: 0U, element_id: 414U, },
     name: "dot1qCustomerSourceMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -3480,7 +3480,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 415U },
+    identity: { enterprise_number: 0U, element_id: 415U, },
     name: "dot1qCustomerDestinationMacAddress",
     abstract_data_type: AbstractDataType::MacAddress,
     semantics: Some("default"),
@@ -3489,7 +3489,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(6),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 417U },
+    identity: { enterprise_number: 0U, element_id: 417U, },
     name: "postLayer2OctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3498,7 +3498,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 418U },
+    identity: { enterprise_number: 0U, element_id: 418U, },
     name: "postMCastLayer2OctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3507,7 +3507,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 420U },
+    identity: { enterprise_number: 0U, element_id: 420U, },
     name: "postLayer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3516,7 +3516,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 421U },
+    identity: { enterprise_number: 0U, element_id: 421U, },
     name: "postMCastLayer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3525,7 +3525,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 422U },
+    identity: { enterprise_number: 0U, element_id: 422U, },
     name: "minimumLayer2TotalLength",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3534,7 +3534,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 423U },
+    identity: { enterprise_number: 0U, element_id: 423U, },
     name: "maximumLayer2TotalLength",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: None,
@@ -3543,7 +3543,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 424U },
+    identity: { enterprise_number: 0U, element_id: 424U, },
     name: "droppedLayer2OctetDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3552,7 +3552,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 425U },
+    identity: { enterprise_number: 0U, element_id: 425U, },
     name: "droppedLayer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3561,7 +3561,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 426U },
+    identity: { enterprise_number: 0U, element_id: 426U, },
     name: "ignoredLayer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3570,7 +3570,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 427U },
+    identity: { enterprise_number: 0U, element_id: 427U, },
     name: "notSentLayer2OctetTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3579,7 +3579,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 428U },
+    identity: { enterprise_number: 0U, element_id: 428U, },
     name: "layer2OctetDeltaSumOfSquares",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3588,7 +3588,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 429U },
+    identity: { enterprise_number: 0U, element_id: 429U, },
     name: "layer2OctetTotalSumOfSquares",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3597,7 +3597,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 430U },
+    identity: { enterprise_number: 0U, element_id: 430U, },
     name: "layer2FrameDeltaCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),
@@ -3606,7 +3606,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 431U },
+    identity: { enterprise_number: 0U, element_id: 431U, },
     name: "layer2FrameTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3615,7 +3615,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 432U },
+    identity: { enterprise_number: 0U, element_id: 432U, },
     name: "pseudoWireDestinationIPv4Address",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -3624,7 +3624,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 433U },
+    identity: { enterprise_number: 0U, element_id: 433U, },
     name: "ignoredLayer2FrameTotalCount",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("totalCounter"),
@@ -3633,7 +3633,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 434U },
+    identity: { enterprise_number: 0U, element_id: 434U, },
     name: "mibObjectValueInteger",
     abstract_data_type: AbstractDataType::Signed32,
     semantics: Some("quantity"),
@@ -3642,7 +3642,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 435U },
+    identity: { enterprise_number: 0U, element_id: 435U, },
     name: "mibObjectValueOctetString",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -3651,7 +3651,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 436U },
+    identity: { enterprise_number: 0U, element_id: 436U, },
     name: "mibObjectValueOID",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -3660,7 +3660,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 437U },
+    identity: { enterprise_number: 0U, element_id: 437U, },
     name: "mibObjectValueBits",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("flags"),
@@ -3669,7 +3669,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 438U },
+    identity: { enterprise_number: 0U, element_id: 438U, },
     name: "mibObjectValueIPAddress",
     abstract_data_type: AbstractDataType::Ipv4Address,
     semantics: Some("default"),
@@ -3678,7 +3678,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 439U },
+    identity: { enterprise_number: 0U, element_id: 439U, },
     name: "mibObjectValueCounter",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("snmpCounter"),
@@ -3687,7 +3687,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 440U },
+    identity: { enterprise_number: 0U, element_id: 440U, },
     name: "mibObjectValueGauge",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("snmpGauge"),
@@ -3696,7 +3696,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 441U },
+    identity: { enterprise_number: 0U, element_id: 441U, },
     name: "mibObjectValueTimeTicks",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -3705,7 +3705,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 442U },
+    identity: { enterprise_number: 0U, element_id: 442U, },
     name: "mibObjectValueUnsigned",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("quantity"),
@@ -3714,7 +3714,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 443U },
+    identity: { enterprise_number: 0U, element_id: 443U, },
     name: "mibObjectValueTable",
     abstract_data_type: AbstractDataType::SubTemplateList,
     semantics: Some("list"),
@@ -3723,7 +3723,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 444U },
+    identity: { enterprise_number: 0U, element_id: 444U, },
     name: "mibObjectValueRow",
     abstract_data_type: AbstractDataType::SubTemplateList,
     semantics: Some("list"),
@@ -3732,7 +3732,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 445U },
+    identity: { enterprise_number: 0U, element_id: 445U, },
     name: "mibObjectIdentifier",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -3741,7 +3741,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 446U },
+    identity: { enterprise_number: 0U, element_id: 446U, },
     name: "mibSubIdentifier",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3750,7 +3750,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 447U },
+    identity: { enterprise_number: 0U, element_id: 447U, },
     name: "mibIndexIndicator",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("flags"),
@@ -3759,7 +3759,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 448U },
+    identity: { enterprise_number: 0U, element_id: 448U, },
     name: "mibCaptureTimeSemantics",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -3768,7 +3768,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 449U },
+    identity: { enterprise_number: 0U, element_id: 449U, },
     name: "mibContextEngineID",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -3777,7 +3777,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 450U },
+    identity: { enterprise_number: 0U, element_id: 450U, },
     name: "mibContextName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3786,7 +3786,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 451U },
+    identity: { enterprise_number: 0U, element_id: 451U, },
     name: "mibObjectName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3795,7 +3795,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 452U },
+    identity: { enterprise_number: 0U, element_id: 452U, },
     name: "mibObjectDescription",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3804,7 +3804,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 453U },
+    identity: { enterprise_number: 0U, element_id: 453U, },
     name: "mibObjectSyntax",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3813,7 +3813,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 454U },
+    identity: { enterprise_number: 0U, element_id: 454U, },
     name: "mibModuleName",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3822,7 +3822,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 455U },
+    identity: { enterprise_number: 0U, element_id: 455U, },
     name: "mobileIMSI",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3831,7 +3831,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 456U },
+    identity: { enterprise_number: 0U, element_id: 456U, },
     name: "mobileMSISDN",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3840,7 +3840,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 457U },
+    identity: { enterprise_number: 0U, element_id: 457U, },
     name: "httpStatusCode",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -3849,7 +3849,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 458U },
+    identity: { enterprise_number: 0U, element_id: 458U, },
     name: "sourceTransportPortsLimit",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("quantity"),
@@ -3858,7 +3858,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 459U },
+    identity: { enterprise_number: 0U, element_id: 459U, },
     name: "httpRequestMethod",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -3867,7 +3867,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 460U },
+    identity: { enterprise_number: 0U, element_id: 460U, },
     name: "httpRequestHost",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -3876,7 +3876,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 461U },
+    identity: { enterprise_number: 0U, element_id: 461U, },
     name: "httpRequestTarget",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -3885,7 +3885,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 462U },
+    identity: { enterprise_number: 0U, element_id: 462U, },
     name: "httpMessageVersion",
     abstract_data_type: AbstractDataType::String,
     semantics: None,
@@ -3894,7 +3894,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 463U },
+    identity: { enterprise_number: 0U, element_id: 463U, },
     name: "natInstanceID",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3903,7 +3903,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 464U },
+    identity: { enterprise_number: 0U, element_id: 464U, },
     name: "internalAddressRealm",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("identifier"),
@@ -3912,7 +3912,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 465U },
+    identity: { enterprise_number: 0U, element_id: 465U, },
     name: "externalAddressRealm",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("identifier"),
@@ -3921,7 +3921,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 466U },
+    identity: { enterprise_number: 0U, element_id: 466U, },
     name: "natQuotaExceededEvent",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3930,7 +3930,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 467U },
+    identity: { enterprise_number: 0U, element_id: 467U, },
     name: "natThresholdEvent",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3939,7 +3939,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 468U },
+    identity: { enterprise_number: 0U, element_id: 468U, },
     name: "httpUserAgent",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3948,7 +3948,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 469U },
+    identity: { enterprise_number: 0U, element_id: 469U, },
     name: "httpContentType",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3957,7 +3957,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 470U },
+    identity: { enterprise_number: 0U, element_id: 470U, },
     name: "httpReasonPhrase",
     abstract_data_type: AbstractDataType::String,
     semantics: Some("default"),
@@ -3966,7 +3966,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 471U },
+    identity: { enterprise_number: 0U, element_id: 471U, },
     name: "maxSessionEntries",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3975,7 +3975,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 472U },
+    identity: { enterprise_number: 0U, element_id: 472U, },
     name: "maxBIBEntries",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3984,7 +3984,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 473U },
+    identity: { enterprise_number: 0U, element_id: 473U, },
     name: "maxEntriesPerUser",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -3993,7 +3993,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 474U },
+    identity: { enterprise_number: 0U, element_id: 474U, },
     name: "maxSubscribers",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4002,7 +4002,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 475U },
+    identity: { enterprise_number: 0U, element_id: 475U, },
     name: "maxFragmentsPendingReassembly",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4011,7 +4011,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 476U },
+    identity: { enterprise_number: 0U, element_id: 476U, },
     name: "addressPoolHighThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4020,7 +4020,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 477U },
+    identity: { enterprise_number: 0U, element_id: 477U, },
     name: "addressPoolLowThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4029,7 +4029,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 478U },
+    identity: { enterprise_number: 0U, element_id: 478U, },
     name: "addressPortMappingHighThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4038,7 +4038,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 479U },
+    identity: { enterprise_number: 0U, element_id: 479U, },
     name: "addressPortMappingLowThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4047,7 +4047,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 480U },
+    identity: { enterprise_number: 0U, element_id: 480U, },
     name: "addressPortMappingPerUserHighThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4056,7 +4056,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 481U },
+    identity: { enterprise_number: 0U, element_id: 481U, },
     name: "globalAddressMappingHighThreshold",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4065,7 +4065,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 482U },
+    identity: { enterprise_number: 0U, element_id: 482U, },
     name: "vpnIdentifier",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4074,7 +4074,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 483U },
+    identity: { enterprise_number: 0U, element_id: 483U, },
     name: "bgpCommunity",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4083,7 +4083,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 484U },
+    identity: { enterprise_number: 0U, element_id: 484U, },
     name: "bgpSourceCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4092,7 +4092,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 485U },
+    identity: { enterprise_number: 0U, element_id: 485U, },
     name: "bgpDestinationCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4101,7 +4101,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 486U },
+    identity: { enterprise_number: 0U, element_id: 486U, },
     name: "bgpExtendedCommunity",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4110,7 +4110,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 487U },
+    identity: { enterprise_number: 0U, element_id: 487U, },
     name: "bgpSourceExtendedCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4119,7 +4119,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 488U },
+    identity: { enterprise_number: 0U, element_id: 488U, },
     name: "bgpDestinationExtendedCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4128,7 +4128,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 489U },
+    identity: { enterprise_number: 0U, element_id: 489U, },
     name: "bgpLargeCommunity",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4137,7 +4137,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 490U },
+    identity: { enterprise_number: 0U, element_id: 490U, },
     name: "bgpSourceLargeCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4146,7 +4146,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 491U },
+    identity: { enterprise_number: 0U, element_id: 491U, },
     name: "bgpDestinationLargeCommunityList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4155,7 +4155,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 492U },
+    identity: { enterprise_number: 0U, element_id: 492U, },
     name: "srhFlagsIPv6",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -4164,7 +4164,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 493U },
+    identity: { enterprise_number: 0U, element_id: 493U, },
     name: "srhTagIPv6",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -4173,7 +4173,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 494U },
+    identity: { enterprise_number: 0U, element_id: 494U, },
     name: "srhSegmentIPv6",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -4182,7 +4182,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 495U },
+    identity: { enterprise_number: 0U, element_id: 495U, },
     name: "srhActiveSegmentIPv6",
     abstract_data_type: AbstractDataType::Ipv6Address,
     semantics: Some("default"),
@@ -4191,7 +4191,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(16),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 496U },
+    identity: { enterprise_number: 0U, element_id: 496U, },
     name: "srhSegmentIPv6BasicList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4200,7 +4200,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 497U },
+    identity: { enterprise_number: 0U, element_id: 497U, },
     name: "srhSegmentIPv6ListSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4209,7 +4209,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 498U },
+    identity: { enterprise_number: 0U, element_id: 498U, },
     name: "srhSegmentsIPv6Left",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("quantity"),
@@ -4218,7 +4218,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 499U },
+    identity: { enterprise_number: 0U, element_id: 499U, },
     name: "srhIPv6Section",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4227,7 +4227,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 500U },
+    identity: { enterprise_number: 0U, element_id: 500U, },
     name: "srhIPv6ActiveSegmentType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -4236,7 +4236,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 501U },
+    identity: { enterprise_number: 0U, element_id: 501U, },
     name: "srhSegmentIPv6LocatorLength",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("default"),
@@ -4245,7 +4245,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 502U },
+    identity: { enterprise_number: 0U, element_id: 502U, },
     name: "srhSegmentIPv6EndpointBehavior",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -4254,7 +4254,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 503U },
+    identity: { enterprise_number: 0U, element_id: 503U, },
     name: "transportChecksum",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("default"),
@@ -4263,7 +4263,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 504U },
+    identity: { enterprise_number: 0U, element_id: 504U, },
     name: "icmpHeaderPacketSection",
     abstract_data_type: AbstractDataType::OctetArray,
     semantics: Some("default"),
@@ -4272,7 +4272,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 505U },
+    identity: { enterprise_number: 0U, element_id: 505U, },
     name: "gtpuFlags",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("flags"),
@@ -4281,7 +4281,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 506U },
+    identity: { enterprise_number: 0U, element_id: 506U, },
     name: "gtpuMsgType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -4290,7 +4290,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 507U },
+    identity: { enterprise_number: 0U, element_id: 507U, },
     name: "gtpuTEid",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4299,7 +4299,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 508U },
+    identity: { enterprise_number: 0U, element_id: 508U, },
     name: "gtpuSequenceNum",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -4308,7 +4308,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 509U },
+    identity: { enterprise_number: 0U, element_id: 509U, },
     name: "gtpuQFI",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -4317,7 +4317,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 510U },
+    identity: { enterprise_number: 0U, element_id: 510U, },
     name: "gtpuPduType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -4326,7 +4326,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 511U },
+    identity: { enterprise_number: 0U, element_id: 511U, },
     name: "bgpSourceAsPathList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4335,7 +4335,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 512U },
+    identity: { enterprise_number: 0U, element_id: 512U, },
     name: "bgpDestinationAsPathList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4344,7 +4344,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 513U },
+    identity: { enterprise_number: 0U, element_id: 513U, },
     name: "ipv6ExtensionHeaderType",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("identifier"),
@@ -4353,7 +4353,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 514U },
+    identity: { enterprise_number: 0U, element_id: 514U, },
     name: "ipv6ExtensionHeaderCount",
     abstract_data_type: AbstractDataType::Unsigned8,
     semantics: Some("totalCounter"),
@@ -4362,7 +4362,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 515U },
+    identity: { enterprise_number: 0U, element_id: 515U, },
     name: "ipv6ExtensionHeadersFull",
     abstract_data_type: AbstractDataType::Unsigned256,
     semantics: Some("flags"),
@@ -4371,7 +4371,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(32),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 516U },
+    identity: { enterprise_number: 0U, element_id: 516U, },
     name: "ipv6ExtensionHeaderTypeCountList",
     abstract_data_type: AbstractDataType::SubTemplateList,
     semantics: Some("list"),
@@ -4380,7 +4380,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 517U },
+    identity: { enterprise_number: 0U, element_id: 517U, },
     name: "ipv6ExtensionHeadersLimit",
     abstract_data_type: AbstractDataType::Boolean,
     semantics: Some("default"),
@@ -4389,7 +4389,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(1),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 518U },
+    identity: { enterprise_number: 0U, element_id: 518U, },
     name: "ipv6ExtensionHeadersChainLength",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4398,7 +4398,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 519U },
+    identity: { enterprise_number: 0U, element_id: 519U, },
     name: "ipv6ExtensionHeaderChainLengthList",
     abstract_data_type: AbstractDataType::SubTemplateList,
     semantics: Some("list"),
@@ -4407,7 +4407,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 520U },
+    identity: { enterprise_number: 0U, element_id: 520U, },
     name: "tcpOptionsFull",
     abstract_data_type: AbstractDataType::Unsigned256,
     semantics: Some("flags"),
@@ -4416,7 +4416,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(32),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 521U },
+    identity: { enterprise_number: 0U, element_id: 521U, },
     name: "tcpSharedOptionExID16",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -4425,7 +4425,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 522U },
+    identity: { enterprise_number: 0U, element_id: 522U, },
     name: "tcpSharedOptionExID32",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("identifier"),
@@ -4434,7 +4434,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 523U },
+    identity: { enterprise_number: 0U, element_id: 523U, },
     name: "tcpSharedOptionExID16List",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4443,7 +4443,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 524U },
+    identity: { enterprise_number: 0U, element_id: 524U, },
     name: "tcpSharedOptionExID32List",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4452,7 +4452,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 525U },
+    identity: { enterprise_number: 0U, element_id: 525U, },
     name: "udpSafeOptions",
     abstract_data_type: AbstractDataType::Unsigned256,
     semantics: Some("flags"),
@@ -4461,7 +4461,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(32),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 526U },
+    identity: { enterprise_number: 0U, element_id: 526U, },
     name: "udpUnsafeOptions",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("flags"),
@@ -4470,7 +4470,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(8),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 527U },
+    identity: { enterprise_number: 0U, element_id: 527U, },
     name: "udpExID",
     abstract_data_type: AbstractDataType::Unsigned16,
     semantics: Some("identifier"),
@@ -4479,7 +4479,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(2),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 528U },
+    identity: { enterprise_number: 0U, element_id: 528U, },
     name: "udpSafeExIDList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4488,7 +4488,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 529U },
+    identity: { enterprise_number: 0U, element_id: 529U, },
     name: "udpUnsafeExIDList",
     abstract_data_type: AbstractDataType::BasicList,
     semantics: Some("list"),
@@ -4497,7 +4497,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: None,
   },
   {
-    identity: { enterprise_number: 0U, element_id: 530U },
+    identity: { enterprise_number: 0U, element_id: 530U, },
     name: "pathDelayMeanDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("deltaCounter"),
@@ -4506,7 +4506,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 531U },
+    identity: { enterprise_number: 0U, element_id: 531U, },
     name: "pathDelayMinDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("deltaCounter"),
@@ -4515,7 +4515,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 532U },
+    identity: { enterprise_number: 0U, element_id: 532U, },
     name: "pathDelayMaxDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned32,
     semantics: Some("deltaCounter"),
@@ -4524,7 +4524,7 @@ let iana_entries : Array[ElementMetadata] = [
     canonical_length: Some(4),
   },
   {
-    identity: { enterprise_number: 0U, element_id: 533U },
+    identity: { enterprise_number: 0U, element_id: 533U, },
     name: "pathDelaySumDeltaMicroseconds",
     abstract_data_type: AbstractDataType::Unsigned64,
     semantics: Some("deltaCounter"),

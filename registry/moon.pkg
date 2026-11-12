@@ -1,1 +1,5 @@
 // Portable Information Element registry Interface.
+
+import {
+  "moonbitlang/core/debug",
+}

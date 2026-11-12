@@ -1,5 +1,5 @@
 ///|
-fn byte_range(source : Bytes, start : Int, end : Int) -> Bytes {
+fn byte_range(source : Bytes, start : Int32, end : Int32) -> Bytes {
   let owned : Array[Byte] = []
   for index in start..<end {
     owned.push(source[index])
@@ -49,7 +49,7 @@ test "a multi-Message chunk preserves order under a small retained limit" {
   let complete = Decoder::new()
   let expected_template = complete.decode_message(template, session)
   let expected_data = complete.decode_message(data, session)
-  let stream = StreamDecoder::with_config(session, { max_buffered_bytes: 32 }).unwrap()
+  let stream = StreamDecoder::with_config(session, { max_buffered_bytes: 32, }).unwrap()
   let batch = stream.push(join_bytes(template, data))
   assert_eq(batch.outcomes.length(), 2)
   assert_eq(batch.outcomes[0], expected_template)
@@ -102,7 +102,7 @@ test "partial Messages do not apply Template state before completion" {
   assert_eq(partial.outcomes.length(), 0)
   assert_eq(
     partial.need_more,
-    Some({ available: template.length() - 1, required: template.length() }),
+    Some({ available: template.length() - 1, required: template.length(), }),
   )
   assert_eq(
     stream.finish(),
@@ -138,10 +138,10 @@ test "end-of-input distinguishes empty and truncated streams" {
   let partial = StreamDecoder::new(SessionKey::new("tcp:truncated"))
   let batch = partial.push(b"\x00\x0a\x00")
   assert_eq(batch.outcomes.length(), 0)
-  assert_eq(batch.need_more, Some({ available: 3, required: 16 }))
+  assert_eq(batch.need_more, Some({ available: 3, required: 16, }))
   assert_eq(
     partial.finish(),
-    StreamEnd::Truncated({ available: 3, required: 16 }),
+    StreamEnd::Truncated({ available: 3, required: 16, }),
   )
 }
 

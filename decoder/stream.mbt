@@ -1,6 +1,6 @@
 ///|
 pub fn StreamDecoderConfig::default() -> StreamDecoderConfig {
-  { max_buffered_bytes: 65535 }
+  { max_buffered_bytes: 65535, }
 }
 
 ///|
@@ -82,11 +82,11 @@ pub fn StreamDecoder::with_limits_and_config(
     Ok(value) => value
     Err(error) => return Err(DecoderConfig(error))
   }
-  Ok({ session, decoder, config, buffer: [], boundary_lost: false })
+  Ok({ session, decoder, config, buffer: [], boundary_lost: false, })
 }
 
 ///|
-pub fn StreamDecoder::buffered_len(self : StreamDecoder) -> Int {
+pub fn StreamDecoder::buffered_len(self : StreamDecoder) -> Int32 {
   self.buffer.length()
 }
 
@@ -112,7 +112,7 @@ pub fn StreamDecoder::push(self : StreamDecoder, chunk : Bytes) -> StreamBatch {
         ),
       ]),
     )
-    return { outcomes, need_more: None, buffered: 0 }
+    return { outcomes, need_more: None, buffered: 0, }
   }
   let mut chunk_cursor = 0
   while chunk_cursor < chunk.length() {
@@ -135,7 +135,7 @@ pub fn StreamDecoder::push(self : StreamDecoder, chunk : Bytes) -> StreamBatch {
       outcomes.push(self.decoder.decode_message(exact_header, self.session))
       self.buffer = []
       self.boundary_lost = true
-      return { outcomes, need_more: None, buffered: 0 }
+      return { outcomes, need_more: None, buffered: 0, }
     }
     if declared_length > self.config.max_buffered_bytes {
       outcomes.push(
@@ -149,7 +149,7 @@ pub fn StreamDecoder::push(self : StreamDecoder, chunk : Bytes) -> StreamBatch {
       )
       self.buffer = []
       self.boundary_lost = true
-      return { outcomes, need_more: None, buffered: 0 }
+      return { outcomes, need_more: None, buffered: 0, }
     }
     let body_needed = declared_length - self.buffer.length()
     let body_take = minimum(body_needed, chunk.length() - chunk_cursor)
@@ -172,7 +172,7 @@ pub fn StreamDecoder::push(self : StreamDecoder, chunk : Bytes) -> StreamBatch {
 }
 
 ///|
-fn minimum(left : Int, right : Int) -> Int {
+fn minimum(left : Int32, right : Int32) -> Int32 {
   if left < right {
     left
   } else {
@@ -199,10 +199,10 @@ fn stream_need_more(buffer : Array[Byte]) -> NeedMore? {
     return None
   }
   if buffer.length() < message_header_length {
-    return Some({ available: buffer.length(), required: message_header_length })
+    return Some({ available: buffer.length(), required: message_header_length, })
   }
   let declared_length = read_u16_be(Bytes::from_array(buffer), 2).reinterpret_as_int()
-  Some({ available: buffer.length(), required: declared_length })
+  Some({ available: buffer.length(), required: declared_length, })
 }
 
 ///|
@@ -215,7 +215,7 @@ fn stream_diagnostic(
     code,
     severity: DiagnosticSeverity::Error,
     offset: 0,
-    context: { session, observation_domain_id: None, set_id: None },
+    context: { session, observation_domain_id: None, set_id: None, },
     message: text,
   }
 }

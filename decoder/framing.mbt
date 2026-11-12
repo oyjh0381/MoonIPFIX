@@ -1,8 +1,8 @@
 ///|
-let message_header_length : Int = 16
+let message_header_length : Int32 = 16
 
 ///|
-let set_header_length : Int = 4
+let set_header_length : Int32 = 4
 
 ///|
 /// Decode exactly one IPFIX Message from a caller-delimited byte buffer.
@@ -18,7 +18,7 @@ pub fn decode_message(data : Bytes, session : SessionKey) -> DecodeOutcome {
 fn decode_message_limited(
   data : Bytes,
   session : SessionKey,
-  max_diagnostics : Int,
+  max_diagnostics : Int32,
 ) -> DecodeOutcome {
   if data.length() < message_header_length {
     return NeedMoreData({
@@ -39,7 +39,7 @@ fn decode_message_limited(
     )
   }
   if data.length() < declared_length {
-    return NeedMoreData({ available: data.length(), required: declared_length })
+    return NeedMoreData({ available: data.length(), required: declared_length, })
   }
   if data.length() > declared_length {
     return reject(
@@ -161,7 +161,7 @@ fn decode_message_limited(
 }
 
 ///|
-fn classify_set(set_id : UInt) -> SetKind {
+fn classify_set(set_id : UInt32) -> SetKind {
   if set_id == 2U {
     SetKind::Template
   } else if set_id == 3U {
@@ -177,9 +177,9 @@ fn classify_set(set_id : UInt) -> SetKind {
 fn reject(
   session : SessionKey,
   code : DiagnosticCode,
-  offset : Int,
-  observation_domain_id : UInt?,
-  set_id : UInt?,
+  offset : Int32,
+  observation_domain_id : UInt32?,
+  set_id : UInt32?,
   message : String,
 ) -> DecodeOutcome {
   Rejected([
@@ -187,19 +187,19 @@ fn reject(
       code,
       severity: DiagnosticSeverity::Error,
       offset,
-      context: { session, observation_domain_id, set_id },
+      context: { session, observation_domain_id, set_id, },
       message,
     },
   ])
 }
 
 ///|
-fn read_u16_be(data : Bytes, offset : Int) -> UInt {
+fn read_u16_be(data : Bytes, offset : Int32) -> UInt32 {
   data[offset].to_uint() * 256U + data[offset + 1].to_uint()
 }
 
 ///|
-fn read_u32_be(data : Bytes, offset : Int) -> UInt {
+fn read_u32_be(data : Bytes, offset : Int32) -> UInt32 {
   data[offset].to_uint() * 0x01000000U +
   data[offset + 1].to_uint() * 0x00010000U +
   data[offset + 2].to_uint() * 0x00000100U +

@@ -48,7 +48,7 @@ test "corruption matrix classifies framing and Template boundaries" {
 
 ///|
 test "complete and streaming decoders agree on limit failure classification" {
-  let limits = { ..DecoderLimits::default(), max_fields_per_template: 1 }
+  let limits = { ..DecoderLimits::default(), max_fields_per_template: 1, }
   let session = SessionKey::new("tcp:stream-limit-equivalence")
   let complete = Decoder::with_limits(limits).unwrap()
   let expected = complete.decode_message(options_template_message(), session)

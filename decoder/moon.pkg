@@ -1,5 +1,6 @@
 // Portable IPFIX decoding Interface.
 import {
+  "moonbitlang/core/debug",
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/hashmap",
   "oyjh0381/moonipfix/registry",

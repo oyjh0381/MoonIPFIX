@@ -1,6 +1,6 @@
 ///|
 /// Output Record schema version reserved by the design baseline.
-pub let schema_version : Int = 1
+pub let schema_version : Int32 = 1
 
 ///|
 /// A stable baseline description used before protocol records are implemented.

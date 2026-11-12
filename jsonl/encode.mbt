@@ -62,7 +62,7 @@ fn encode_template_with_kind(
   template : @decoder.TemplateRecord,
   record_kind : String,
 ) -> String {
-  let fields = StringBuilder::new()
+  let fields = StringBuilder()
   fields.write_char('[')
   for index in 0..<template.fields.length() {
     if index > 0 {
@@ -83,14 +83,14 @@ fn encode_template_with_kind(
 ///|
 pub fn encode_stream_statistics(
   session : String,
-  messages : Int,
-  sets : Int,
-  templates : Int,
-  records : Int,
-  fields : Int,
-  unknown_fields : Int,
-  diagnostics : Int,
-  sequence_gaps : Int,
+  messages : Int32,
+  sets : Int32,
+  templates : Int32,
+  records : Int32,
+  fields : Int32,
+  unknown_fields : Int32,
+  diagnostics : Int32,
+  sequence_gaps : Int32,
 ) -> String {
   envelope(
     "stream_statistics",
@@ -108,7 +108,7 @@ fn encode_lifecycle(event : @decoder.TemplateLifecycleEvent) -> String {
 
 ///|
 fn encode_record(record : @decoder.DataRecord) -> String {
-  let fields = StringBuilder::new()
+  let fields = StringBuilder()
   fields.write_char('[')
   for index in 0..<record.fields.length() {
     if index > 0 {
@@ -166,7 +166,7 @@ fn time_value(kind : String, decimal : String) -> String {
 ///|
 fn hex(value : Bytes) -> String {
   let digits = "0123456789abcdef"
-  let output = StringBuilder::new()
+  let output = StringBuilder()
   for byte in value {
     output.write_char(digits[byte.to_int() / 16].to_int().unsafe_to_char())
     output.write_char(digits[byte.to_int() % 16].to_int().unsafe_to_char())
@@ -202,7 +202,7 @@ fn encode_statistics(
 }
 
 ///|
-fn optional_uint(value : UInt?) -> String {
+fn optional_uint(value : UInt32?) -> String {
   match value {
     Some(v) => v.to_string()
     None => "null"
@@ -210,7 +210,7 @@ fn optional_uint(value : UInt?) -> String {
 }
 
 ///|
-fn optional_int(value : Int?) -> String {
+fn optional_int(value : Int32?) -> String {
   match value {
     Some(v) => v.to_string()
     None => "null"

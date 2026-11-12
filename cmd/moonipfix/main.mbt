@@ -1,5 +1,5 @@
 ///|
-extern "C" fn process_exit(code : Int) = "exit"
+extern "C" fn process_exit(code : Int32) = "exit"
 
 ///|
 struct CliOptions {
@@ -11,17 +11,17 @@ struct CliOptions {
 
 ///|
 struct CliStatus {
-  mut warnings : Int
+  mut warnings : Int32
   mut malformed : Bool
   mut resource_limit : Bool
-  mut messages : Int
-  mut sets : Int
-  mut templates : Int
-  mut records : Int
-  mut fields : Int
-  mut unknown_fields : Int
-  mut diagnostics : Int
-  mut sequence_gaps : Int
+  mut messages : Int32
+  mut sets : Int32
+  mut templates : Int32
+  mut records : Int32
+  mut fields : Int32
+  mut unknown_fields : Int32
+  mut diagnostics : Int32
+  mut sequence_gaps : Int32
 }
 
 ///|
@@ -110,7 +110,7 @@ fn parse_options(args : Array[String]) -> Result[CliOptions, String] {
       index += 1
     }
   }
-  Ok({ command, path, session, deny_warnings })
+  Ok({ command, path, session, deny_warnings, })
 }
 
 ///|

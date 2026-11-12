@@ -1,6 +1,6 @@
 ///|
 pub fn Registry::standard() -> Registry {
-  { enterprise_metadata: [] }
+  { enterprise_metadata: [], }
 }
 
 ///|
@@ -22,7 +22,7 @@ pub fn Registry::with_enterprise(
     }
     owned.push(candidate)
   }
-  Ok({ enterprise_metadata: owned })
+  Ok({ enterprise_metadata: owned, })
 }
 
 ///|

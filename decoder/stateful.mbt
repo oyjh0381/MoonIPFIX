@@ -121,11 +121,12 @@ pub fn Decoder::reset_session(
 }
 
 ///|
+#derive(Debug, Eq)
 enum TemplateManagementAction {
-  Define(TemplateRecord, Int)
-  WithdrawOne(TemplateIdentity, TemplateKind, Int)
-  WithdrawAll(SessionKey, UInt, TemplateKind, Int)
-} derive(Debug, Eq)
+  Define(TemplateRecord, Int32)
+  WithdrawOne(TemplateIdentity, TemplateKind, Int32)
+  WithdrawAll(SessionKey, UInt32, TemplateKind, Int32)
+}
 
 ///|
 /// Decode one caller-delimited Message and update Template state only after all
@@ -361,7 +362,7 @@ fn Decoder::audit_sequence(
 }
 
 ///|
-fn sequence_distance(expected : UInt, observed : UInt) -> UInt {
+fn sequence_distance(expected : UInt32, observed : UInt32) -> UInt32 {
   if observed >= expected {
     observed - expected
   } else {
@@ -370,7 +371,7 @@ fn sequence_distance(expected : UInt, observed : UInt) -> UInt {
 }
 
 ///|
-fn sequence_advance(observed : UInt, record_count : Int) -> UInt {
+fn sequence_advance(observed : UInt32, record_count : Int32) -> UInt32 {
   ((observed.to_uint64() + record_count.to_uint64()) % 0x1_0000_0000UL).to_uint()
 }
 
@@ -607,7 +608,7 @@ fn Decoder::parse_management_set(
           ),
         )
       }
-      fields.push({ identity, length: field_length })
+      fields.push({ identity, length: field_length, })
       minimum_record_length += minimum_field_length
       if field_length != 65535 {
         fixed_record_length += field_length
@@ -876,7 +877,7 @@ fn Decoder::apply_management_action(
 fn Decoder::template_count_for_session(
   self : Decoder,
   session : SessionKey,
-) -> Int {
+) -> Int32 {
   let mut count = 0
   for key in self.templates.keys() {
     if key.session == session {
@@ -1019,7 +1020,7 @@ fn Decoder::decode_data_set(
       })
       cursor = value_offset + encoded_length
     }
-    records.push({ template: template.identity, offset: record_offset, fields })
+    records.push({ template: template.identity, offset: record_offset, fields, })
   }
   let remainder = end - cursor
   if remainder > 0 &&
@@ -1043,8 +1044,8 @@ fn Decoder::decode_data_set(
 fn decode_field_value(
   metadata : @registry.LookupResult,
   data : Bytes,
-  offset : Int,
-  length : Int,
+  offset : Int32,
+  length : Int32,
 ) -> (FieldValue, String?) {
   match metadata {
     @registry.Resolved(element) =>
@@ -1202,9 +1203,9 @@ fn decode_field_value(
 ///|
 fn decode_reduced_unsigned(
   data : Bytes,
-  offset : Int,
-  length : Int,
-  canonical_length : Int,
+  offset : Int32,
+  length : Int32,
+  canonical_length : Int32,
 ) -> (FieldValue, String?) {
   if length > 0 && length <= canonical_length {
     (FieldValue::Unsigned(read_uint_be(data, offset, length)), None)
@@ -1218,9 +1219,9 @@ fn decode_reduced_unsigned(
 ///|
 fn decode_reduced_signed(
   data : Bytes,
-  offset : Int,
-  length : Int,
-  canonical_length : Int,
+  offset : Int32,
+  length : Int32,
+  canonical_length : Int32,
 ) -> (FieldValue, String?) {
   if length > 0 && length <= canonical_length {
     (FieldValue::Signed(read_int_be(data, offset, length)), None)
@@ -1234,15 +1235,15 @@ fn decode_reduced_signed(
 ///|
 fn raw_fallback(
   data : Bytes,
-  offset : Int,
-  length : Int,
+  offset : Int32,
+  length : Int32,
   reason : String,
 ) -> (FieldValue, String?) {
   (FieldValue::Octets(copy_bytes(data, offset, length)), Some(reason))
 }
 
 ///|
-fn read_uint_be(data : Bytes, offset : Int, length : Int) -> UInt64 {
+fn read_uint_be(data : Bytes, offset : Int32, length : Int32) -> UInt64 {
   let mut value = 0UL
   for index in 0..<length {
     value = value * 256UL + data[offset + index].to_uint64()
@@ -1251,7 +1252,7 @@ fn read_uint_be(data : Bytes, offset : Int, length : Int) -> UInt64 {
 }
 
 ///|
-fn read_int_be(data : Bytes, offset : Int, length : Int) -> Int64 {
+fn read_int_be(data : Bytes, offset : Int32, length : Int32) -> Int64 {
   let unsigned = read_uint_be(data, offset, length)
   if length == 8 {
     unsigned.reinterpret_as_int64()
@@ -1263,12 +1264,12 @@ fn read_int_be(data : Bytes, offset : Int, length : Int) -> Int64 {
 }
 
 ///|
-fn copy_bytes(data : Bytes, offset : Int, length : Int) -> Bytes {
+fn copy_bytes(data : Bytes, offset : Int32, length : Int32) -> Bytes {
   Bytes::from_array(data[offset:offset + length].to_array())
 }
 
 ///|
-fn bytes_are_zero(data : Bytes, offset : Int, length : Int) -> Bool {
+fn bytes_are_zero(data : Bytes, offset : Int32, length : Int32) -> Bool {
   for index in 0..<length {
     if data[offset + index] != b'\x00' {
       return false
@@ -1282,7 +1283,7 @@ fn template_diagnostic(
   message : DecodedMessage,
   set : SetSummary,
   code : DiagnosticCode,
-  offset : Int,
+  offset : Int32,
   text : String,
 ) -> Diagnostic {
   make_diagnostic(
@@ -1301,7 +1302,7 @@ fn data_diagnostic(
   message : DecodedMessage,
   set : SetSummary,
   code : DiagnosticCode,
-  offset : Int,
+  offset : Int32,
   text : String,
 ) -> Diagnostic {
   make_diagnostic(
@@ -1344,16 +1345,24 @@ fn make_diagnostic(
   session : SessionKey,
   code : DiagnosticCode,
   severity : DiagnosticSeverity,
-  offset : Int,
-  observation_domain_id : UInt?,
-  set_id : UInt?,
+  offset : Int32,
+  observation_domain_id : UInt32?,
+  set_id : UInt32?,
   message : String,
 ) -> Diagnostic {
   {
     code,
     severity,
     offset,
-    context: { session, observation_domain_id, set_id },
+    context: { session, observation_domain_id, set_id, },
     message,
   }
 }
+
+///|
+pub extend TemplateManagementAction with @moonbitlang/core/debug.Debug::{
+  to_repr,
+}
+
+///|
+pub extend TemplateManagementAction with Eq::{not_equal, equal}
